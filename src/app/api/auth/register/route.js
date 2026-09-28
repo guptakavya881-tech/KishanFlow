@@ -100,9 +100,9 @@ export async function POST(request) {
       },
     });
   } catch (error) {
-    console.error('Registration error:', error);
+    console.error('Registration error:', error.message || error);
     return NextResponse.json(
-      { success: false, error: 'Something went wrong. Please try again.' },
+      { success: false, error: 'Registration failed due to a server error. Please try again later.' },
       { status: 500 }
     );
   }

@@ -10,7 +10,8 @@ export function getDatabase() {
     return dbInstance;
   }
 
-  const dataDir = path.join(process.cwd(), 'data');
+  const isVercel = process.env.VERCEL === '1';
+  const dataDir = process.env.DATA_DIR || (isVercel ? '/tmp/data' : path.join(process.cwd(), 'data'));
   if (!fs.existsSync(dataDir)) {
     fs.mkdirSync(dataDir, { recursive: true });
   }
