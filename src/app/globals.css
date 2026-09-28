@@ -11165,3 +11165,47 @@ input:focus, select:focus, textarea:focus {
 }
 
 
+
+/* ======================================================== */
+/* SIDEBAR NAVIGATION ALIGNMENT FIX FOR ALL ROLES           */
+/* ======================================================== */
+
+/* Force all nav items to align left */
+.farmer-saas-nav-item,
+.buyer-saas-nav-item,
+.admin-saas-nav-item,
+.supplier-saas-nav-item {
+  justify-content: flex-start !important;
+}
+
+/* Fix inline styles in duplicate farmer pages */
+.farmer-saas-nav-item[style*="justify-content: space-between"] {
+  justify-content: flex-start !important;
+}
+
+/* Force badges and right-side elements to float to the right */
+.farmer-nav-badge,
+.buyer-saas-nav-badge,
+.admin-nav-badge,
+.admin-saas-nav-item > div:last-child:not(.admin-nav-item-left),
+.buyer-saas-nav-item > div:last-child:not(.buyer-saas-nav-left),
+.farmer-saas-nav-item > span:last-child {
+  margin-left: auto !important;
+}
+
+/* Ensure consistent fixed width for icons to align text perfectly */
+.farmer-saas-nav-item svg:first-child,
+.buyer-saas-nav-left svg:first-child,
+.admin-nav-item-left svg:first-child,
+.supplier-saas-nav-item svg:first-child,
+.farmer-saas-nav-item > div:first-child > svg:first-child {
+  min-width: 18px !important;
+  max-width: 18px !important;
+}
+
+/* Ensure consistent gap between icon and text */
+.admin-nav-item-left,
+.buyer-saas-nav-left,
+.farmer-saas-nav-item > div:first-child {
+  gap: 12px !important;
+}
