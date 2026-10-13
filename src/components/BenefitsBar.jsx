@@ -2,28 +2,31 @@
 
 import React from 'react';
 import { Sprout, ShieldCheck, Truck, Headphones } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function BenefitsBar() {
+  const { t } = useLanguage();
+
   const benefits = [
     {
       icon: Sprout,
-      title: 'Direct Farm to Market',
-      desc: 'No middlemen, better rates',
+      title: t('landing.benefit1Title', 'Direct Farm to Market'),
+      desc: t('landing.benefit1Desc', 'No middlemen, better rates'),
     },
     {
       icon: ShieldCheck,
-      title: 'Verified Community',
-      desc: 'Trusted & safe transactions',
+      title: t('landing.benefit2Title', 'Verified Community'),
+      desc: t('landing.benefit2Desc', 'Trusted & safe transactions'),
     },
     {
       icon: Truck,
-      title: 'Wide Network',
-      desc: 'Farmers, buyers & suppliers',
+      title: t('landing.benefit3Title', 'Wide Network'),
+      desc: t('landing.benefit3Desc', 'Farmers, buyers & suppliers'),
     },
     {
       icon: Headphones,
-      title: '24/7 Support',
-      desc: "We're here to help",
+      title: t('landing.benefit4Title', '24/7 Support'),
+      desc: t('landing.benefit4Desc', "We're here to help"),
     },
   ];
 

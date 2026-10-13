@@ -18,9 +18,13 @@ import {
   Building,
   LogOut,
   Sparkles,
+  Globe,
 } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
+import LanguageSelector from '@/components/LanguageSelector';
 
 export default function SettingsModule({ roleTitle = 'Account', roleColor = '#15803d' }) {
+  const { t } = useLanguage();
   const { user, refreshUser, logout } = useAuth();
 
   // Profile Form state
@@ -202,20 +206,20 @@ export default function SettingsModule({ roleTitle = 'Account', roleColor = '#15
         <div>
           <div className="flex items-center gap-2 text-emerald-700 font-bold text-xs uppercase tracking-wider mb-1">
             <Sparkles size={15} />
-            <span>KishanFlow Account Center</span>
+            <span>{t('settings.accountCenter', 'KishanFlow Account Center')}</span>
           </div>
           <h1 className="text-2xl font-black text-slate-900 tracking-tight m-0">
-            {roleTitle} Settings
+            {roleTitle} {t('settings.settingsTitle', 'Settings')}
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 mt-1 m-0">
-            Manage your account credentials, notifications, and profile details.
+            {t('settings.settingsSubtitle', 'Manage your account credentials, notifications, and profile details.')}
           </p>
         </div>
 
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold shadow-2xs">
             <ShieldCheck size={16} className="text-emerald-600" />
-            <span>Role: {profile.role || 'USER'} (Verified)</span>
+            <span>{t('settings.roleVerified', 'Role: {{role}} (Verified)', { role: profile.role || 'USER' })}</span>
           </div>
           <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 text-slate-700 text-xs font-semibold">
             <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
@@ -235,9 +239,9 @@ export default function SettingsModule({ roleTitle = 'Account', roleColor = '#15
                 <User size={20} />
               </div>
               <div>
-                <h2 className="kf-settings-card-title">Personal &amp; Contact Information</h2>
+                <h2 className="kf-settings-card-title">{t('settings.personalContactInfo', 'Personal & Contact Information')}</h2>
                 <p className="kf-settings-card-sub">
-                  Your profile details visible on dispatch notes, mandi contracts, and gate tokens.
+                  {t('settings.personalContactSub', 'Your profile details visible on dispatch notes, mandi contracts, and gate tokens.')}
                 </p>
               </div>
             </div>
@@ -511,16 +515,30 @@ export default function SettingsModule({ roleTitle = 'Account', roleColor = '#15
           </div>
         </div>
 
-        {/* Right 1 Column: Preferences & Mandi Standards */}
+        {/* Right 1 Column: Language, Preferences & Mandi Standards */}
         <div className="space-y-6">
+          {/* Language Preference Card */}
+          <div className="kf-settings-card space-y-4">
+            <div className="flex items-center gap-2.5 text-slate-900 font-bold text-sm">
+              <Globe size={18} className="text-emerald-600" />
+              <span>{t('settings.languagePreferences', 'Language Preference')}</span>
+            </div>
+            <p className="text-xs text-slate-500 leading-relaxed m-0">
+              {t('settings.languagePreferencesSub', 'Choose your preferred display language for the KishanFlow platform.')}
+            </p>
+            <div className="pt-1">
+              <LanguageSelector variant="navbar" />
+            </div>
+          </div>
+
           {/* Notification Preferences Card */}
           <div className="kf-settings-card space-y-4">
             <div className="flex items-center gap-2.5 text-slate-900 font-bold text-sm">
               <Bell size={18} className="text-emerald-600" />
-              <span>Notification Preferences</span>
+              <span>{t('settings.notificationPrefs', 'Notification Preferences')}</span>
             </div>
             <p className="text-xs text-slate-500 leading-relaxed m-0">
-              Control which operational notifications you receive across SMS, email, and live app alerts.
+              {t('settings.notificationPrefsSub', 'Control which operational notifications you receive across SMS, email, and live app alerts.')}
             </p>
 
             <div className="space-y-3 pt-2">
@@ -529,8 +547,8 @@ export default function SettingsModule({ roleTitle = 'Account', roleColor = '#15
                 className="kf-toggle-item"
               >
                 <div>
-                  <p className="text-xs font-bold text-slate-800 m-0">SMS Gate Alerts</p>
-                  <p className="text-[11px] text-slate-500 m-0 mt-0.5">Alerts when your token is called</p>
+                  <p className="text-xs font-bold text-slate-800 m-0">{t('settings.smsGateAlerts', 'SMS Gate Alerts')}</p>
+                  <p className="text-[11px] text-slate-500 m-0 mt-0.5">{t('settings.smsGateAlertsSub', 'Alerts when your token is called')}</p>
                 </div>
                 <div className={`kf-switch ${notifPrefs.smsAlerts ? 'active' : ''}`}>
                   <div className="kf-switch-knob" />
@@ -542,8 +560,8 @@ export default function SettingsModule({ roleTitle = 'Account', roleColor = '#15
                 className="kf-toggle-item"
               >
                 <div>
-                  <p className="text-xs font-bold text-slate-800 m-0">Email Order Updates</p>
-                  <p className="text-[11px] text-slate-500 m-0 mt-0.5">Invoices &amp; contract slips</p>
+                  <p className="text-xs font-bold text-slate-800 m-0">{t('settings.emailOrderUpdates', 'Email Order Updates')}</p>
+                  <p className="text-[11px] text-slate-500 m-0 mt-0.5">{t('settings.emailOrderUpdatesSub', 'Invoices & contract slips')}</p>
                 </div>
                 <div className={`kf-switch ${notifPrefs.emailAlerts ? 'active' : ''}`}>
                   <div className="kf-switch-knob" />
@@ -555,8 +573,8 @@ export default function SettingsModule({ roleTitle = 'Account', roleColor = '#15
                 className="kf-toggle-item"
               >
                 <div>
-                  <p className="text-xs font-bold text-slate-800 m-0">Payment Settlement</p>
-                  <p className="text-[11px] text-slate-500 m-0 mt-0.5">Real-time DBT bank notifications</p>
+                  <p className="text-xs font-bold text-slate-800 m-0">{t('settings.paymentSettlement', 'Payment Settlement')}</p>
+                  <p className="text-[11px] text-slate-500 m-0 mt-0.5">{t('settings.paymentSettlementSub', 'Real-time DBT bank notifications')}</p>
                 </div>
                 <div className={`kf-switch ${notifPrefs.paymentAlerts ? 'active' : ''}`}>
                   <div className="kf-switch-knob" />
@@ -568,8 +586,8 @@ export default function SettingsModule({ roleTitle = 'Account', roleColor = '#15
                 className="kf-toggle-item"
               >
                 <div>
-                  <p className="text-xs font-bold text-slate-800 m-0">Queue Progress Updates</p>
-                  <p className="text-[11px] text-slate-500 m-0 mt-0.5">Weighbridge turnaround warnings</p>
+                  <p className="text-xs font-bold text-slate-800 m-0">{t('settings.queueProgressUpdates', 'Queue Progress Updates')}</p>
+                  <p className="text-[11px] text-slate-500 m-0 mt-0.5">{t('settings.queueProgressUpdatesSub', 'Weighbridge turnaround warnings')}</p>
                 </div>
                 <div className={`kf-switch ${notifPrefs.queueUpdates ? 'active' : ''}`}>
                   <div className="kf-switch-knob" />
@@ -582,15 +600,15 @@ export default function SettingsModule({ roleTitle = 'Account', roleColor = '#15
           <div className="bg-emerald-900 text-white rounded-2xl p-6 shadow-xs space-y-3">
             <div className="flex items-center gap-2 text-emerald-300 font-bold text-xs uppercase tracking-wider">
               <ShieldCheck size={16} />
-              <span>Mandi Compliance &amp; Trust</span>
+              <span>{t('settings.mandiCompliance', 'Mandi Compliance & Trust')}</span>
             </div>
-            <h3 className="text-base font-extrabold text-white m-0">Direct Beneficiary Account</h3>
+            <h3 className="text-base font-extrabold text-white m-0">{t('settings.directBeneficiary', 'Direct Beneficiary Account')}</h3>
             <p className="text-xs text-emerald-100 leading-relaxed m-0">
-              Your profile is verified with regional APMC mandi samitis. All payments are transferred directly to your DBT registered bank account without middlemen commissions.
+              {t('settings.mandiTrustText', 'Your profile is verified with regional APMC mandi samitis. All payments are transferred directly to your DBT registered bank account without middlemen commissions.')}
             </p>
             <div className="pt-2">
               <div className="inline-block px-3 py-1.5 rounded-lg bg-emerald-800/80 text-[11px] font-semibold text-emerald-200">
-                Encrypted with 256-Bit SSL
+                {t('settings.sslEncrypted', 'Encrypted with 256-Bit SSL')}
               </div>
             </div>
           </div>

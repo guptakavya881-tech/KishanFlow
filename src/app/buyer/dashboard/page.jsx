@@ -12,8 +12,10 @@ import OrderPreviewCard from '@/components/buyer/OrderPreviewCard';
 import NotificationPreview from '@/components/buyer/NotificationPreview';
 import BuyerProfileCard from '@/components/buyer/BuyerProfileCard';
 import { ArrowRight, Headphones, Sprout, Package, RefreshCw } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function BuyerDashboardPage() {
+  const { t } = useLanguage();
   const [dashboardData, setDashboardData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -56,37 +58,37 @@ export default function BuyerDashboardPage() {
   const summaryCards = [
     {
       id: 'available-produce',
-      title: 'Available Produce',
+      title: t('buyer.availableProduce', 'Available Produce'),
       value: String(stats.availableProduce),
       unit: 'Lots',
-      highlight: stats.availableProduce > 0 ? `${stats.availableProduce} lots ready` : 'Waiting for farmer listings',
+      highlight: stats.availableProduce > 0 ? `${stats.availableProduce} lots ready` : t('common.waiting', 'Waiting for listings'),
       iconName: 'Wheat',
       link: '/buyer/browse',
     },
     {
       id: 'active-orders',
-      title: 'Active Orders',
+      title: t('farmer.activeOrders', 'Active Orders'),
       value: String(stats.activeOrders),
       unit: 'Orders',
-      highlight: stats.activeOrders > 0 ? `${stats.activeOrders} active` : 'No active orders',
+      highlight: stats.activeOrders > 0 ? `${stats.activeOrders} active` : t('common.emptyState', 'No active orders'),
       iconName: 'Package',
       link: '/buyer/orders',
     },
     {
       id: 'ready-delivery',
-      title: 'Ready for Delivery',
+      title: t('buyer.trackOrders', 'Ready for Delivery'),
       value: String(stats.readyForDelivery),
       unit: 'Shipments',
-      highlight: stats.readyForDelivery > 0 ? `${stats.readyForDelivery} ready` : 'No orders ready',
+      highlight: stats.readyForDelivery > 0 ? `${stats.readyForDelivery} ready` : t('common.emptyState', 'No shipments ready'),
       iconName: 'Truck',
       link: '/buyer/track-orders',
     },
     {
       id: 'pending-payments',
-      title: 'Pending Payments',
+      title: t('farmer.pendingPayment', 'Pending Payments'),
       value: stats.pendingPayments > 0 ? `₹${stats.pendingPayments.toLocaleString('en-IN')}` : '₹0',
       unit: '',
-      highlight: stats.pendingPayments > 0 ? 'Pending payment' : 'No pending payments',
+      highlight: stats.pendingPayments > 0 ? t('farmer.pendingPayment', 'Pending payment') : t('farmer.noPendingPayment', 'No pending payments'),
       iconName: 'IndianRupee',
       link: '/buyer/payments',
     },
@@ -129,10 +131,10 @@ export default function BuyerDashboardPage() {
                 <div>
                   <h2 className="buyer-section-title">
                     <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#15803d' }} />
-                    Available Near You
+                    {t('buyer.availableProduce', 'Available Produce')}
                   </h2>
                   <p className="buyer-section-subtitle">
-                    Fresh produce registered directly by verified KishanFlow farmers
+                    {t('buyer.directFromFarmers', 'Fresh produce registered directly by verified KishanFlow farmers')}
                   </p>
                 </div>
 
@@ -152,7 +154,7 @@ export default function BuyerDashboardPage() {
                     textDecoration: 'none',
                   }}
                 >
-                  <span>Browse All Lots</span>
+                  <span>{t('common.viewAll', 'Browse All Lots')}</span>
                   <ArrowRight size={13} />
                 </Link>
               </div>
@@ -161,7 +163,7 @@ export default function BuyerDashboardPage() {
               {loading ? (
                 <div style={{ padding: '40px 0', textAlign: 'center', color: '#6b7280' }}>
                   <RefreshCw size={24} className="animate-spin" style={{ margin: '0 auto 8px', color: '#15803d' }} />
-                  <p style={{ fontSize: '0.85rem', fontWeight: 600 }}>Loading available farmer produce...</p>
+                  <p style={{ fontSize: '0.85rem', fontWeight: 600 }}>{t('common.loading', 'Loading available farmer produce...')}</p>
                 </div>
               ) : availableCrops.length > 0 ? (
                 <div className="buyer-produce-grid">
@@ -175,13 +177,13 @@ export default function BuyerDashboardPage() {
                     <Sprout size={28} />
                   </div>
                   <h3 style={{ fontSize: '1.15rem', fontWeight: 900, color: '#0f172a', margin: 0 }}>
-                    No crops available yet 🌱
+                    {t('farmer.noCropsRegistered', 'No crops available yet')} 🌱
                   </h3>
                   <p style={{ fontSize: '0.84rem', color: '#4b5563', margin: 0, maxWidth: '420px', lineHeight: 1.5 }}>
-                    Farmer crop listings will appear here when farmers add produce for procurement.
+                    {t('farmer.addFirstCropPrompt', 'Farmer crop listings will appear here when farmers add produce for procurement.')}
                   </p>
                   <span style={{ fontSize: '0.78rem', color: '#6b7280', fontStyle: 'italic' }}>
-                    Check back soon.
+                    {t('common.emptyState', 'Check back soon.')}
                   </span>
                 </div>
               )}
@@ -193,10 +195,10 @@ export default function BuyerDashboardPage() {
                 <div>
                   <h2 className="buyer-section-title">
                     <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#d97706' }} />
-                    Recent Orders
+                    {t('buyer.myOrders', 'Recent Orders')}
                   </h2>
                   <p className="buyer-section-subtitle">
-                    Live dispatch status and procurement allocation history
+                    {t('farmer.inProcurementFlow', 'Live dispatch status and procurement allocation history')}
                   </p>
                 </div>
 
@@ -216,7 +218,7 @@ export default function BuyerDashboardPage() {
                     textDecoration: 'none',
                   }}
                 >
-                  <span>View All Orders</span>
+                  <span>{t('farmer.viewOrders', 'View All Orders')}</span>
                   <ArrowRight size={13} />
                 </Link>
               </div>

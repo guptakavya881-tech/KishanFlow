@@ -20,22 +20,26 @@ import {
   Warehouse,
   Settings,
 } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
 
-export const BUYER_NAV_ITEMS = [
-  { label: 'Dashboard', href: '/buyer/dashboard', icon: LayoutDashboard },
-  { label: 'Browse Crops', href: '/buyer/browse', icon: Sprout },
-  { label: 'Find Produce', href: '/buyer/find-produce', icon: Search },
-  { label: 'My Orders', href: '/buyer/orders', icon: Package },
-  { label: 'Track Orders', href: '/buyer/track-orders', icon: Truck },
-  { label: 'Payments', href: '/buyer/payments', icon: IndianRupee },
-  { label: 'Notifications', href: '/buyer/notifications', icon: Bell },
-  { label: 'Profile', href: '/buyer/profile', icon: User },
-  { label: 'Purchase History', href: '/buyer/purchase-history', icon: History },
-  { label: 'Help & Support', href: '/buyer/help', icon: HelpCircle },
-  { label: 'Settings', href: '/buyer/settings', icon: Settings },
+export const BUYER_NAV_CONFIG = [
+  { key: 'common.dashboard', defaultLabel: 'Dashboard', href: '/buyer/dashboard', icon: LayoutDashboard },
+  { key: 'buyer.browseCrops', defaultLabel: 'Browse Crops', href: '/buyer/browse', icon: Sprout },
+  { key: 'buyer.findProduce', defaultLabel: 'Find Produce', href: '/buyer/find-produce', icon: Search },
+  { key: 'buyer.myOrders', defaultLabel: 'My Orders', href: '/buyer/orders', icon: Package },
+  { key: 'buyer.trackOrders', defaultLabel: 'Track Orders', href: '/buyer/track-orders', icon: Truck },
+  { key: 'buyer.payments', defaultLabel: 'Payments', href: '/buyer/payments', icon: IndianRupee },
+  { key: 'common.notifications', defaultLabel: 'Notifications', href: '/buyer/notifications', icon: Bell },
+  { key: 'common.profile', defaultLabel: 'Profile', href: '/buyer/profile', icon: User },
+  { key: 'buyer.purchaseHistory', defaultLabel: 'Purchase History', href: '/buyer/purchase-history', icon: History },
+  { key: 'common.helpSupport', defaultLabel: 'Help & Support', href: '/buyer/help', icon: HelpCircle },
+  { key: 'common.settings', defaultLabel: 'Settings', href: '/buyer/settings', icon: Settings },
 ];
 
+export const BUYER_NAV_ITEMS = BUYER_NAV_CONFIG.map(item => ({ label: item.defaultLabel, href: item.href, icon: item.icon }));
+
 export default function BuyerSidebar({ onCloseMobile }) {
+  const { t } = useLanguage();
   const pathname = usePathname();
   const { logout } = useAuth();
   const [unreadCount, setUnreadCount] = useState(0);
@@ -79,18 +83,19 @@ export default function BuyerSidebar({ onCloseMobile }) {
 
       {/* Section Label */}
       <div className="buyer-saas-nav-section-title">
-        Procurement Hub
+        {t('buyer.procurementHub', 'Procurement Hub')}
       </div>
 
       {/* Navigation Links */}
       <nav className="buyer-saas-nav-list">
-        {BUYER_NAV_ITEMS.map((item) => {
+        {BUYER_NAV_CONFIG.map((item) => {
           const Icon = item.icon;
           const isActive =
             pathname === item.href ||
             (item.href !== '/buyer/dashboard' && pathname.startsWith(item.href)) ||
             (item.href === '/buyer/help' && pathname.startsWith('/buyer/support'));
-          const badgeCount = item.href === '/buyer/notifications' ? unreadCount : (item.badge || 0);
+          const badgeCount = item.href === '/buyer/notifications' ? unreadCount : 0;
+          const translatedLabel = t(item.key, item.defaultLabel);
 
           return (
             <Link
@@ -104,7 +109,7 @@ export default function BuyerSidebar({ onCloseMobile }) {
                   size={18}
                   style={{ color: isActive ? '#15803d' : '#9ca3af' }}
                 />
-                <span>{item.label}</span>
+                <span>{translatedLabel}</span>
               </div>
               {badgeCount > 0 && (
                 <span className="buyer-saas-nav-badge">
@@ -133,10 +138,10 @@ export default function BuyerSidebar({ onCloseMobile }) {
         </div>
         <div style={{ minWidth: 0, overflow: 'hidden' }}>
           <p style={{ margin: 0, fontSize: '0.74rem', fontWeight: 800, color: '#1f2937', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
-            Regional Mandi Direct
+            {t('buyer.regionalMandiDirect', 'Regional Mandi Direct')}
           </p>
           <p style={{ margin: 0, fontSize: '0.66rem', color: '#6b7280', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
-            Verified Quality &amp; MSP Assurance
+            {t('buyer.verifiedQualityMsp', 'Verified Quality & MSP Assurance')}
           </p>
         </div>
       </div>
@@ -157,7 +162,7 @@ export default function BuyerSidebar({ onCloseMobile }) {
         >
           <div className="buyer-saas-nav-left">
             <LogOut size={17} style={{ color: '#ef4444' }} />
-            <span>Logout</span>
+            <span>{t('common.logout', 'Logout')}</span>
           </div>
         </button>
       </div>

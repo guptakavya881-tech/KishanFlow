@@ -14,12 +14,15 @@ import {
   Settings,
   HelpCircle,
 } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
+import LanguageSelector from '@/components/LanguageSelector';
 
 export default function SupplierLayout({
   children,
   title = 'Supplier Dashboard',
   subtitle = 'Manage your agricultural products, inventory and farmer orders.',
 }) {
+  const { t } = useLanguage();
   const { user, logout } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
@@ -79,13 +82,16 @@ export default function SupplierLayout({
                 </div>
               </div>
 
-              {/* Right: Notifications & User Profile */}
-              <div className="supplier-header-right">
+              {/* Right: Language Selector, Notifications & User Profile */}
+              <div className="supplier-header-right" style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+                <LanguageSelector variant="compact" />
+
                 {/* Notification Bell */}
                 <Link
                   href="/supplier/notifications"
                   className="supplier-notif-btn"
-                  aria-label="Notifications"
+                  aria-label={t('common.notifications', 'Notifications')}
+                  title={t('common.notifications', 'Notifications')}
                 >
                   <Bell size={18} />
                   <span className="supplier-notif-dot" />
@@ -121,7 +127,7 @@ export default function SupplierLayout({
                       >
                         {supplierName}
                       </span>
-                      <span className="supplier-user-role-badge">Supplier</span>
+                      <span className="supplier-user-role-badge">{t('common.supplier', 'Supplier')}</span>
                     </div>
                     <ChevronDown size={14} style={{ color: '#94a3b8' }} />
                   </button>
@@ -192,7 +198,7 @@ export default function SupplierLayout({
                           }}
                         >
                           <Settings size={15} style={{ color: '#64748b' }} />
-                          <span>Settings</span>
+                          <span>{t('common.settings', 'Settings')}</span>
                         </Link>
 
                         <Link
@@ -210,7 +216,7 @@ export default function SupplierLayout({
                           }}
                         >
                           <HelpCircle size={15} style={{ color: '#64748b' }} />
-                          <span>Help &amp; Support</span>
+                          <span>{t('common.helpSupport', 'Help & Support')}</span>
                         </Link>
 
                         <div
@@ -242,7 +248,7 @@ export default function SupplierLayout({
                             }}
                           >
                             <LogOut size={15} style={{ color: '#dc2626' }} />
-                            <span>Sign Out</span>
+                            <span>{t('common.signOut', 'Sign Out')}</span>
                           </button>
                         </div>
                       </div>

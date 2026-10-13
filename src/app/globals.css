@@ -75,7 +75,7 @@ html {
 }
 
 body {
-  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Plus Jakarta Sans', 'Noto Sans Devanagari', 'Noto Sans Gurmukhi', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   color: var(--text-dark);
   background-color: var(--bg-cream-soft);
   line-height: 1.5;
@@ -115,6 +115,175 @@ textarea {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* ===================================================
+   LANGUAGE SELECTOR COMPONENT (i18n)
+=================================================== */
+.kf-lang-selector-wrap {
+  position: relative;
+  display: inline-block;
+  font-family: inherit;
+  z-index: 60;
+}
+
+.kf-lang-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--border-light);
+  background-color: #ffffff;
+  color: var(--text-dark);
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  user-select: none;
+}
+
+.kf-lang-btn:hover {
+  border-color: var(--green-main);
+  background-color: var(--green-tint);
+  color: var(--green-deep);
+  transform: translateY(-1px);
+}
+
+.kf-lang-btn:focus-visible {
+  outline: 2px solid var(--green-main);
+  outline-offset: 2px;
+}
+
+.kf-lang-btn.compact {
+  padding: 4px 10px;
+  font-size: 0.78rem;
+  gap: 6px;
+}
+
+.kf-lang-btn.auth {
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  border-color: var(--green-border);
+  box-shadow: var(--shadow-sm);
+}
+
+.kf-lang-btn.sidebar {
+  width: 100%;
+  justify-content: space-between;
+  border-color: #f1f5f9;
+  background-color: #f8fafc;
+  padding: 8px 12px;
+  font-size: 0.82rem;
+}
+
+.kf-lang-globe-icon {
+  display: flex;
+  align-items: center;
+  color: var(--green-main);
+}
+
+.kf-lang-label {
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.kf-lang-chevron {
+  color: var(--text-muted);
+  transition: transform var(--transition-fast);
+}
+
+.kf-lang-chevron.rotate {
+  transform: rotate(180deg);
+}
+
+.kf-lang-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 190px;
+  background-color: #ffffff;
+  border-radius: 14px;
+  border: 1.5px solid var(--border-light);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.12), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+  padding: 6px;
+  z-index: 100;
+  animation: kfDropdownFade 0.15s ease-out;
+}
+
+@keyframes kfDropdownFade {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.kf-lang-dropdown-header {
+  padding: 6px 10px 8px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border-subtle);
+  margin-bottom: 4px;
+}
+
+.kf-lang-options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.kf-lang-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color var(--transition-fast);
+}
+
+.kf-lang-option:hover,
+.kf-lang-option.focused {
+  background-color: var(--green-soft);
+}
+
+.kf-lang-option.selected {
+  background-color: var(--green-tint);
+}
+
+.kf-lang-option-text {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.kf-lang-native {
+  font-weight: 700;
+  font-size: 0.88rem;
+  color: var(--text-dark);
+}
+
+.kf-lang-english {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.kf-lang-check {
+  color: var(--green-deep);
+  flex-shrink: 0;
 }
 
 /* ===================================================

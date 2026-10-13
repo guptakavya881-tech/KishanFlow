@@ -24,8 +24,10 @@ import {
   MapPin,
   ExternalLink,
 } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function AdminDashboardPage() {
+  const { t } = useLanguage();
   const { user } = useAuth();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -229,11 +231,11 @@ export default function AdminDashboardPage() {
             <div className="admin-welcome-text">
               <span className="admin-welcome-badge">
                 <Sparkles size={13} />
-                System Administration • Real-time Operations
+                {t('admin.portalTitle', 'System Administration • Real-time Operations')}
               </span>
-              <h1>Welcome back, {adminName}</h1>
+              <h1>{t('buyer.welcomeBuyer', 'Welcome back')}, {adminName}</h1>
               <p>
-                Monitor and manage KishanFlow agricultural procurement operations, mandi centres, and user transactions.
+                {t('admin.centralGovernance', 'Monitor and manage KishanFlow agricultural procurement operations, mandi centres, and user transactions.')}
               </p>
             </div>
 
@@ -243,10 +245,10 @@ export default function AdminDashboardPage() {
                 onClick={() => fetchDashboardData(true)}
                 disabled={refreshing}
                 className="admin-refresh-btn"
-                title="Refresh metrics from database"
+                title={t('common.refresh', 'Refresh')}
               >
                 <RefreshCw size={14} className={refreshing ? 'animate-spin' : ''} />
-                <span>{refreshing ? 'Refreshing...' : 'Live Refresh'}</span>
+                <span>{refreshing ? t('common.loading', 'Refreshing...') : t('common.refresh', 'Live Refresh')}</span>
               </button>
             </div>
           </section>
@@ -259,61 +261,61 @@ export default function AdminDashboardPage() {
               {/* 1. Total Farmers */}
               <div className="admin-stat-card">
                 <div className="admin-stat-top">
-                  <span className="admin-stat-label">Total Farmers</span>
+                  <span className="admin-stat-label">{t('admin.farmers', 'Total Farmers')}</span>
                   <div className="admin-stat-icon-wrap green">
                     <Users size={20} />
                   </div>
                 </div>
                 <div className="admin-stat-val">{stats.totalFarmers}</div>
-                <div className="admin-stat-desc">Registered farming partners</div>
+                <div className="admin-stat-desc">{t('landing.roleFarmerSub', 'Registered farming partners')}</div>
               </div>
 
               {/* 2. Total Buyers */}
               <div className="admin-stat-card">
                 <div className="admin-stat-top">
-                  <span className="admin-stat-label">Total Buyers</span>
+                  <span className="admin-stat-label">{t('admin.buyers', 'Total Buyers')}</span>
                   <div className="admin-stat-icon-wrap amber">
                     <Building2 size={20} />
                   </div>
                 </div>
                 <div className="admin-stat-val">{stats.totalBuyers}</div>
-                <div className="admin-stat-desc">Institutional &amp; bulk buyers</div>
+                <div className="admin-stat-desc">{t('landing.roleBuyerSub', 'Institutional & bulk buyers')}</div>
               </div>
 
               {/* 3. Active Crop Listings */}
               <div className="admin-stat-card">
                 <div className="admin-stat-top">
-                  <span className="admin-stat-label">Active Crop Listings</span>
+                  <span className="admin-stat-label">{t('admin.cropListings', 'Active Crop Listings')}</span>
                   <div className="admin-stat-icon-wrap emerald">
                     <Sprout size={20} />
                   </div>
                 </div>
                 <div className="admin-stat-val">{stats.activeCrops}</div>
-                <div className="admin-stat-desc">Lots available for mandi procurement</div>
+                <div className="admin-stat-desc">{t('farmer.activeCropsDesc', 'Lots available for mandi procurement')}</div>
               </div>
 
               {/* 4. Total Orders */}
               <div className="admin-stat-card">
                 <div className="admin-stat-top">
-                  <span className="admin-stat-label">Total Orders</span>
+                  <span className="admin-stat-label">{t('admin.orders', 'Total Orders')}</span>
                   <div className="admin-stat-icon-wrap blue">
                     <Package size={20} />
                   </div>
                 </div>
                 <div className="admin-stat-val">{stats.totalOrders}</div>
-                <div className="admin-stat-desc">Total procurement orders placed</div>
+                <div className="admin-stat-desc">{t('farmer.orders', 'Total procurement orders placed')}</div>
               </div>
 
               {/* 5. Pending Orders */}
               <div className="admin-stat-card">
                 <div className="admin-stat-top">
-                  <span className="admin-stat-label">Pending Orders</span>
+                  <span className="admin-stat-label">{t('common.pending', 'Pending Orders')}</span>
                   <div className="admin-stat-icon-wrap amber">
                     <Clock size={20} />
                   </div>
                 </div>
                 <div className="admin-stat-val">{stats.pendingOrders}</div>
-                <div className="admin-stat-desc">In review or transit pipeline</div>
+                <div className="admin-stat-desc">{t('farmer.pendingConfirmation', 'In review or transit pipeline')}</div>
               </div>
 
               {/* 6. Completed Procurement */}

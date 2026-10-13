@@ -4,19 +4,22 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
+import { useLanguage } from '@/context/LanguageContext';
+import LanguageSelector from './LanguageSelector';
 import WheatLogo from './WheatLogo';
 import { Menu, X, LogOut, LayoutDashboard, User } from 'lucide-react';
 
 export default function Navbar() {
   const pathname = usePathname();
   const { user, logout } = useAuth();
+  const { t } = useLanguage();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navLinks = [
-    { name: 'Home', href: '/' },
-    { name: 'About', href: '#about' },
-    { name: 'Features', href: '#features' },
-    { name: 'Contact', href: '#contact' },
+    { name: t('common.home', 'Home'), href: '/' },
+    { name: t('common.about', 'About'), href: '#about' },
+    { name: t('common.features', 'Features'), href: '#features' },
+    { name: t('common.contact', 'Contact'), href: '#contact' },
   ];
 
   return (
@@ -33,7 +36,7 @@ export default function Navbar() {
             const isActive = pathname === link.href;
             return (
               <Link
-                key={link.name}
+                key={link.href}
                 href={link.href}
                 className={`nav-link ${isActive ? 'active' : ''}`}
               >
@@ -44,36 +47,40 @@ export default function Navbar() {
           })}
         </nav>
 
-        {/* Right Section: Tagline or Auth profile */}
-        <div className="navbar-right">
+        {/* Right Section: Language Selector + Tagline or Auth profile */}
+        <div className="navbar-right" style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          {/* Always Visible Language Selector */}
+          <LanguageSelector variant="navbar" />
+
           {user ? (
             <div className="navbar-user-bar">
               <Link
                 href={`/${user.role}/dashboard`}
                 className="user-pill-btn"
-                title="Go to dashboard"
+                title={t('common.dashboard', 'Dashboard')}
               >
                 <div className="user-avatar-mini">
                   <User size={14} />
                 </div>
                 <span className="user-name-text">{user.fullName}</span>
-                <span className={`role-badge role-${user.role}`}>{user.role}</span>
+                <span className={`role-badge role-${user.role}`}>{t(`common.${user.role}`, user.role)}</span>
               </Link>
               <button
                 onClick={logout}
                 className="logout-icon-btn"
-                title="Sign out"
+                title={t('common.logout', 'Sign out')}
+                aria-label={t('common.logout', 'Sign out')}
               >
                 <LogOut size={16} />
               </button>
             </div>
           ) : (
             <div className="navbar-tagline-motto">
-              <span>Better Farmers</span>
+              <span>{t('landing.benefit1Title', 'Better Farmers')}</span>
               <span className="dot-sep">|</span>
-              <span>Better Food</span>
+              <span>{t('landing.feature2Title', 'Better Food')}</span>
               <span className="dot-sep">|</span>
-              <span>A Stronger Tomorrow</span>
+              <span>{t('common.brandTagline', 'A Stronger Tomorrow')}</span>
             </div>
           )}
         </div>
@@ -91,10 +98,14 @@ export default function Navbar() {
       {/* Mobile Nav Drawer */}
       {mobileMenuOpen && (
         <div className="mobile-drawer">
+          <div style={{ marginBottom: '16px', display: 'flex', justifyContent: 'flex-end' }}>
+            <LanguageSelector variant="navbar" />
+          </div>
+
           <nav className="mobile-nav">
             {navLinks.map((link) => (
               <Link
-                key={link.name}
+                key={link.href}
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
                 className={`mobile-nav-link ${pathname === link.href ? 'active' : ''}`}
@@ -111,7 +122,7 @@ export default function Navbar() {
                   className="mobile-dashboard-link"
                 >
                   <LayoutDashboard size={18} />
-                  <span>My {user.role.toUpperCase()} Dashboard</span>
+                  <span>{t('common.dashboard', 'Dashboard')} ({t(`common.${user.role}`, user.role)})</span>
                 </Link>
                 <button
                   onClick={() => {
@@ -121,17 +132,17 @@ export default function Navbar() {
                   className="mobile-logout-btn"
                 >
                   <LogOut size={18} />
-                  <span>Log out</span>
+                  <span>{t('common.logout', 'Log out')}</span>
                 </button>
               </div>
             ) : (
               <div className="mobile-roles-list">
-                <p className="mobile-roles-title">Login Portals:</p>
+                <p className="mobile-roles-title">{t('landing.loginPortals', 'Login Portals:')}</p>
                 <div className="mobile-roles-grid">
-                  <Link href="/farmer/login" onClick={() => setMobileMenuOpen(false)} className="mobile-role-item green">Farmer</Link>
-                  <Link href="/buyer/login" onClick={() => setMobileMenuOpen(false)} className="mobile-role-item blue">Buyer</Link>
-                  <Link href="/admin/login" onClick={() => setMobileMenuOpen(false)} className="mobile-role-item purple">Admin</Link>
-                  <Link href="/supplier/login" onClick={() => setMobileMenuOpen(false)} className="mobile-role-item orange">Supplier</Link>
+                  <Link href="/farmer/login" onClick={() => setMobileMenuOpen(false)} className="mobile-role-item green">{t('common.farmer', 'Farmer')}</Link>
+                  <Link href="/buyer/login" onClick={() => setMobileMenuOpen(false)} className="mobile-role-item blue">{t('common.buyer', 'Buyer')}</Link>
+                  <Link href="/admin/login" onClick={() => setMobileMenuOpen(false)} className="mobile-role-item purple">{t('common.admin', 'Admin')}</Link>
+                  <Link href="/supplier/login" onClick={() => setMobileMenuOpen(false)} className="mobile-role-item orange">{t('common.supplier', 'Supplier')}</Link>
                 </div>
               </div>
             )}

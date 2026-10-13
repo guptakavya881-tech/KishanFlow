@@ -7,10 +7,13 @@ import { useAuth } from '@/context/AuthContext';
 import WheatLogo from '@/components/WheatLogo';
 import FormInput from '@/components/FormInput';
 import { Lock, Loader2, User, KeyRound, X } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
+import LanguageSelector from '@/components/LanguageSelector';
 
 export default function SupplierLoginPage() {
   const router = useRouter();
   const { login } = useAuth();
+  const { t } = useLanguage();
 
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
@@ -28,10 +31,10 @@ export default function SupplierLoginPage() {
     e.preventDefault();
     const errs = {};
     if (!identifier.trim()) {
-      errs.identifier = 'Please enter your Mobile Number or Email.';
+      errs.identifier = t('validation.identifierRequired', 'Please enter your Mobile Number or Email.');
     }
     if (!password) {
-      errs.password = 'Please enter your password.';
+      errs.password = t('validation.passwordInputRequired', 'Please enter your password.');
     }
 
     if (Object.keys(errs).length > 0) {
@@ -46,7 +49,7 @@ export default function SupplierLoginPage() {
       await login(identifier, password, 'supplier');
       router.push('/supplier/dashboard');
     } catch (err) {
-      setServerError(err.message || 'Invalid email/mobile or password.');
+      setServerError(err.message || t('validation.loginFailed', 'Invalid email/mobile or password.'));
     } finally {
       setLoading(false);
     }
@@ -80,12 +83,16 @@ export default function SupplierLoginPage() {
       />
 
       <div className="auth-container">
+        <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '10px' }}>
+          <LanguageSelector variant="compact" />
+        </div>
+
         <div className="auth-header">
           <div className="auth-logo-center">
             <WheatLogo size={52} href="/" />
           </div>
-          <h1 className="auth-title orange-title">Supplier Login</h1>
-          <p className="auth-tagline">Access your supply orders & logistic dispatches</p>
+          <h1 className="auth-title orange-title">{t('auth.supplierLoginTitle', 'Supplier Login')}</h1>
+          <p className="auth-tagline">{t('auth.supplierLoginTagline', 'Access your supply orders & logistic dispatches')}</p>
         </div>
 
         <div className="auth-card">
@@ -100,7 +107,7 @@ export default function SupplierLoginPage() {
               id="identifier"
               name="identifier"
               type="text"
-              placeholder="Mobile Number or Email"
+              placeholder={t('auth.identifierPlaceholder', 'Mobile Number or Email')}
               icon={User}
               value={identifier}
               onChange={(e) => {
@@ -118,7 +125,7 @@ export default function SupplierLoginPage() {
               id="password"
               name="password"
               type="password"
-              placeholder="Password"
+              placeholder={t('auth.passwordPlaceholder', 'Password')}
               icon={Lock}
               value={password}
               onChange={(e) => {
@@ -141,7 +148,7 @@ export default function SupplierLoginPage() {
                 }}
                 className="forgot-password-link"
               >
-                Forgot Password?
+                {t('auth.forgotPassword', 'Forgot Password?')}
               </button>
             </div>
 
@@ -152,18 +159,18 @@ export default function SupplierLoginPage() {
             >
               {loading ? (
                 <span className="flex items-center justify-center gap-2">
-                  <Loader2 size={18} className="animate-spin" /> Logging in...
+                  <Loader2 size={18} className="animate-spin" /> {t('auth.loggingIn', 'Logging in...')}
                 </span>
               ) : (
-                'Login'
+                t('common.login', 'Login')
               )}
             </button>
           </form>
 
           <div className="auth-footer-text">
-            <span>Don't have an account? </span>
+            <span>{t('auth.dontHaveAccount', "Don't have an account?")} </span>
             <Link href="/supplier/register" className="auth-link orange-link">
-              Register here
+              {t('auth.registerHere', 'Register here')}
             </Link>
           </div>
         </div>
@@ -178,7 +185,7 @@ export default function SupplierLoginPage() {
             <div className="modal-header">
               <div className="flex items-center gap-2">
                 <KeyRound size={20} className="text-amber-600" />
-                <h3 className="font-bold text-lg">Reset Supplier Password</h3>
+                <h3 className="font-bold text-lg">{t('auth.resetFarmerPassword', 'Reset Password')}</h3>
               </div>
               <button
                 onClick={() => {
@@ -186,6 +193,7 @@ export default function SupplierLoginPage() {
                   setForgotMessage('');
                 }}
                 className="text-secondary hover:text-dark"
+                aria-label={t('common.close', 'Close')}
               >
                 <X size={20} />
               </button>
@@ -201,19 +209,19 @@ export default function SupplierLoginPage() {
                   }}
                   className="btn btn-primary w-full"
                 >
-                  Close
+                  {t('common.close', 'Close')}
                 </button>
               </div>
             ) : (
               <form onSubmit={handleForgotPassword} className="p-4 flex flex-col gap-4">
                 <p className="text-xs text-secondary">
-                  Enter your registered mobile number or email address and we'll send you reset instructions.
+                  {t('auth.enterRegisteredInfo', "Enter your registered mobile number or email address and we'll send you reset instructions.")}
                 </p>
                 <FormInput
                   id="forgotInput"
                   name="forgotInput"
                   type="text"
-                  placeholder="Registered Mobile or Email"
+                  placeholder={t('auth.identifierPlaceholder', 'Mobile Number or Email')}
                   icon={User}
                   value={forgotInput}
                   onChange={(e) => setForgotInput(e.target.value)}
@@ -224,7 +232,7 @@ export default function SupplierLoginPage() {
                   disabled={forgotLoading}
                   className="btn btn-supplier-login w-full"
                 >
-                  {forgotLoading ? 'Sending...' : 'Send Reset Link'}
+                  {forgotLoading ? t('auth.sending', 'Sending...') : t('auth.sendResetLink', 'Send Reset Link')}
                 </button>
               </form>
             )}

@@ -22,24 +22,28 @@ import {
   LogOut,
   ShieldCheck,
 } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
 
-export const ADMIN_NAV_ITEMS = [
-  { label: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard },
-  { label: 'Farmers', href: '/admin/farmers', icon: Users },
-  { label: 'Buyers', href: '/admin/buyers', icon: Building2 },
-  { label: 'Crop Listings', href: '/admin/crops', icon: Sprout },
-  { label: 'Procurement Centres', href: '/admin/centres', icon: Warehouse },
-  { label: 'Orders', href: '/admin/orders', icon: Package },
-  { label: 'Payments', href: '/admin/payments', icon: IndianRupee },
-  { label: 'Queue Management', href: '/admin/queue', icon: Clock },
-  { label: 'Notifications', href: '/admin/notifications', icon: Bell },
-  { label: 'Support', href: '/admin/support', icon: HelpCircle },
-  { label: 'Reports & Analytics', href: '/admin/reports', icon: BarChart3 },
-  { label: 'Profile', href: '/admin/profile', icon: User },
-  { label: 'Settings', href: '/admin/settings', icon: Settings },
+export const ADMIN_NAV_CONFIG = [
+  { key: 'common.dashboard', defaultLabel: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard },
+  { key: 'admin.farmers', defaultLabel: 'Farmers', href: '/admin/farmers', icon: Users },
+  { key: 'admin.buyers', defaultLabel: 'Buyers', href: '/admin/buyers', icon: Building2 },
+  { key: 'admin.cropListings', defaultLabel: 'Crop Listings', href: '/admin/crops', icon: Sprout },
+  { key: 'admin.centres', defaultLabel: 'Procurement Centres', href: '/admin/centres', icon: Warehouse },
+  { key: 'admin.orders', defaultLabel: 'Orders', href: '/admin/orders', icon: Package },
+  { key: 'admin.payments', defaultLabel: 'Payments', href: '/admin/payments', icon: IndianRupee },
+  { key: 'admin.queueManagement', defaultLabel: 'Queue Management', href: '/admin/queue', icon: Clock },
+  { key: 'common.notifications', defaultLabel: 'Notifications', href: '/admin/notifications', icon: Bell },
+  { key: 'common.helpSupport', defaultLabel: 'Support', href: '/admin/support', icon: HelpCircle },
+  { key: 'admin.reports', defaultLabel: 'Reports & Analytics', href: '/admin/reports', icon: BarChart3 },
+  { key: 'common.profile', defaultLabel: 'Profile', href: '/admin/profile', icon: User },
+  { key: 'common.settings', defaultLabel: 'Settings', href: '/admin/settings', icon: Settings },
 ];
 
+export const ADMIN_NAV_ITEMS = ADMIN_NAV_CONFIG.map(item => ({ label: item.defaultLabel, href: item.href, icon: item.icon }));
+
 export default function AdminSidebar({ onCloseMobile }) {
+  const { t } = useLanguage();
   const pathname = usePathname();
   const { logout } = useAuth();
   const [unreadCount, setUnreadCount] = useState(0);
@@ -75,7 +79,7 @@ export default function AdminSidebar({ onCloseMobile }) {
               <span className="brand-flow">Flow</span>
             </div>
             <span className="admin-portal-tag">
-              Operations &amp; Oversight
+              {t('admin.portalTitle', 'Operations & Oversight')}
             </span>
           </div>
         </Link>
@@ -83,12 +87,12 @@ export default function AdminSidebar({ onCloseMobile }) {
 
       {/* Navigation Section Title */}
       <div className="admin-nav-section-title">
-        System Management
+        {t('admin.systemManagement', 'System Management')}
       </div>
 
       {/* Navigation Links */}
       <nav className="admin-saas-nav-list">
-        {ADMIN_NAV_ITEMS.map((item) => {
+        {ADMIN_NAV_CONFIG.map((item) => {
           const Icon = item.icon;
           const isActive =
             pathname === item.href ||
@@ -96,6 +100,7 @@ export default function AdminSidebar({ onCloseMobile }) {
             (item.href === '/admin/reports' && pathname.startsWith('/admin/analytics'));
 
           const badgeCount = item.href === '/admin/notifications' ? unreadCount : 0;
+          const translatedLabel = t(item.key, item.defaultLabel);
 
           return (
             <Link
@@ -109,7 +114,7 @@ export default function AdminSidebar({ onCloseMobile }) {
                   size={18}
                   className={`admin-nav-icon ${isActive ? 'icon-active' : ''}`}
                 />
-                <span>{item.label}</span>
+                <span>{translatedLabel}</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                 {badgeCount > 0 && (
@@ -131,7 +136,7 @@ export default function AdminSidebar({ onCloseMobile }) {
         </div>
         <div className="admin-status-info">
           <p className="status-title">Admin Console</p>
-          <p className="status-sub">State Level Mandi Network</p>
+          <p className="status-sub">{t('admin.stateLevelMandi', 'State Level Mandi Network')}</p>
         </div>
       </div>
 
@@ -143,7 +148,7 @@ export default function AdminSidebar({ onCloseMobile }) {
           className="admin-logout-btn"
         >
           <LogOut size={17} />
-          <span>Logout</span>
+          <span>{t('common.logout', 'Logout')}</span>
         </button>
       </div>
     </aside>

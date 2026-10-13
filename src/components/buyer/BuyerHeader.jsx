@@ -16,8 +16,11 @@ import {
   LogOut,
   Building2,
 } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
+import LanguageSelector from '@/components/LanguageSelector';
 
 export default function BuyerHeader({ onToggleMobile, mobileOpen }) {
+  const { t } = useLanguage();
   const { user, logout } = useAuth();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
@@ -89,7 +92,7 @@ export default function BuyerHeader({ onToggleMobile, mobileOpen }) {
             borderRadius: '9999px',
             marginLeft: '4px',
           }}>
-            Buyer
+            {t('common.buyer', 'Buyer')}
           </span>
         </div>
 
@@ -108,13 +111,15 @@ export default function BuyerHeader({ onToggleMobile, mobileOpen }) {
             fontSize: '0.78rem',
           }}>
             <Building2 size={14} />
-            Institutional Procurement Portal
+            {t('buyer.portalTitle', 'Institutional Procurement Portal')}
           </span>
         </div>
       </div>
 
-      {/* Right Header Area: Notifications & Buyer Profile */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+      {/* Right Header Area: Language Selector, Notifications & Buyer Profile */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+        <LanguageSelector variant="compact" />
+
         {/* Notification Bell with Badge */}
         <Link
           href="/buyer/notifications"
@@ -128,7 +133,7 @@ export default function BuyerHeader({ onToggleMobile, mobileOpen }) {
             justifyContent: 'center',
             textDecoration: 'none',
           }}
-          title="Notifications"
+          title={t('common.notifications', 'Notifications')}
         >
           <Bell size={20} />
           {unreadCount > 0 && (
@@ -254,7 +259,7 @@ export default function BuyerHeader({ onToggleMobile, mobileOpen }) {
                 }}
               >
                 <User size={15} style={{ color: '#9ca3af' }} />
-                <span>Buyer Profile</span>
+                <span>{t('common.profile', 'Buyer Profile')}</span>
               </Link>
 
               <Link
@@ -271,7 +276,7 @@ export default function BuyerHeader({ onToggleMobile, mobileOpen }) {
                 }}
               >
                 <Package size={15} style={{ color: '#9ca3af' }} />
-                <span>My Orders</span>
+                <span>{t('buyer.myOrders', 'My Orders')}</span>
               </Link>
 
               <Link
@@ -288,7 +293,7 @@ export default function BuyerHeader({ onToggleMobile, mobileOpen }) {
                 }}
               >
                 <HelpCircle size={15} style={{ color: '#9ca3af' }} />
-                <span>Help &amp; Support</span>
+                <span>{t('common.helpSupport', 'Help & Support')}</span>
               </Link>
 
               <div style={{ borderTop: '1px solid #f3f4f6', marginTop: '4px', paddingTop: '4px' }}>
@@ -310,7 +315,7 @@ export default function BuyerHeader({ onToggleMobile, mobileOpen }) {
                   }}
                 >
                   <LogOut size={15} />
-                  <span>Sign Out</span>
+                  <span>{t('common.signOut', 'Sign Out')}</span>
                 </button>
               </div>
             </div>

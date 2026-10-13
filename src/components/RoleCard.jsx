@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { ArrowRight, Truck } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function RoleCard({
   role,
@@ -12,6 +13,8 @@ export default function RoleCard({
   theme = 'green',
   avatarImg,
 }) {
+  const { t } = useLanguage();
+
   return (
     <div className={`role-card theme-${theme}`}>
       <div className="role-avatar-wrapper">
@@ -40,13 +43,13 @@ export default function RoleCard({
       </div>
 
       <div className="role-card-content">
-        <span className="role-card-prefix">Login as</span>
+        <span className="role-card-prefix">{t('common.loginAs', 'Login as')}</span>
         <h3 className="role-card-title">{title}</h3>
         <p className="role-card-subtitle">{subtitle}</p>
       </div>
 
       <Link href={href} className="role-card-btn">
-        <span>Login</span>
+        <span>{t('common.login', 'Login')}</span>
         <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
       </Link>
     </div>

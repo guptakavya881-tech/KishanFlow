@@ -14,8 +14,11 @@ import {
   LogOut,
   Settings,
 } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
+import LanguageSelector from '@/components/LanguageSelector';
 
 export default function AdminHeader({ onToggleMobile, mobileOpen }) {
+  const { t } = useLanguage();
   const { user, logout } = useAuth();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
@@ -70,26 +73,28 @@ export default function AdminHeader({ onToggleMobile, mobileOpen }) {
             <span className="brand-kisan">Kishan</span>
             <span className="brand-flow">Flow</span>
           </div>
-          <span className="admin-role-tag">Admin</span>
+          <span className="admin-role-tag">{t('common.admin', 'Admin')}</span>
         </div>
 
         {/* Desktop Header Title */}
         <div className="admin-header-title-wrap">
-          <h1 className="admin-header-title">Admin Dashboard</h1>
+          <h1 className="admin-header-title">{t('admin.dashboard', 'Admin Dashboard')}</h1>
           <span className="admin-portal-badge">
             <Shield size={13} />
-            Central Mandi Governance
+            {t('admin.centralGovernance', 'Central Mandi Governance')}
           </span>
         </div>
       </div>
 
-      {/* Right: Notifications & Authenticated Admin Info */}
+      {/* Right: Language Selector, Notifications & Authenticated Admin Info */}
       <div className="admin-header-right">
+        <LanguageSelector variant="compact" />
+
         {/* Notification Bell Icon */}
         <Link
           href="/admin/notifications"
           className="admin-header-notif-btn"
-          title={unreadCount > 0 ? `${unreadCount} unread notifications` : 'Notifications'}
+          title={unreadCount > 0 ? `${unreadCount} ${t('common.notifications', 'Notifications')}` : t('common.notifications', 'Notifications')}
         >
           <Bell size={19} />
           {unreadCount > 0 && (
@@ -122,8 +127,8 @@ export default function AdminHeader({ onToggleMobile, mobileOpen }) {
             <div className="admin-details">
               <span className="admin-name">{adminName}</span>
               <div className="admin-role-row">
-                <span className="admin-badge">ADMIN</span>
-                <span className="admin-verified-text">Active</span>
+                <span className="admin-badge">{t('common.admin', 'ADMIN').toUpperCase()}</span>
+                <span className="admin-verified-text">{t('common.active', 'Active')}</span>
               </div>
             </div>
 
@@ -150,7 +155,7 @@ export default function AdminHeader({ onToggleMobile, mobileOpen }) {
                 className="admin-dropdown-item"
               >
                 <User size={15} />
-                <span>Admin Profile</span>
+                <span>{t('common.profile', 'Admin Profile')}</span>
               </Link>
 
               <Link
@@ -158,7 +163,7 @@ export default function AdminHeader({ onToggleMobile, mobileOpen }) {
                 className="admin-dropdown-item"
               >
                 <Settings size={15} />
-                <span>System Settings</span>
+                <span>{t('common.settings', 'System Settings')}</span>
               </Link>
 
               <div className="admin-dropdown-footer">
@@ -168,7 +173,7 @@ export default function AdminHeader({ onToggleMobile, mobileOpen }) {
                   className="admin-dropdown-logout"
                 >
                   <LogOut size={15} />
-                  <span>Sign Out</span>
+                  <span>{t('common.signOut', 'Sign Out')}</span>
                 </button>
               </div>
             </div>

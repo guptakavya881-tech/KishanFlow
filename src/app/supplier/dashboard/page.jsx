@@ -21,6 +21,7 @@ import {
   Truck,
   AlertCircle,
 } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
 
 const CATEGORIES = [
   'Seeds',
@@ -34,6 +35,7 @@ const CATEGORIES = [
 const UNITS = ['bag', 'pack', 'kg', 'liter', 'bottle', 'kit', 'unit'];
 
 export default function SupplierDashboardPage() {
+  const { t } = useLanguage();
   const { user } = useAuth();
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
@@ -383,7 +385,7 @@ export default function SupplierDashboardPage() {
             <div className="supplier-card-header">
               <div>
                 <h2 className="supplier-card-title">
-                  Your Products
+                  {t('supplier.products', 'Your Products')}
                   <span
                     style={{
                       fontSize: '0.74rem',
@@ -396,7 +398,7 @@ export default function SupplierDashboardPage() {
                   </span>
                 </h2>
                 <p className="supplier-card-subtitle">
-                  Agricultural inputs, seeds, bio-fertilizers, and farm machinery listed for farmers.
+                  {t('supplier.manageProducts', 'Agricultural inputs, seeds, bio-fertilizers, and farm machinery listed for farmers.')}
                 </p>
               </div>
 
@@ -406,14 +408,14 @@ export default function SupplierDashboardPage() {
                 className="supplier-btn-primary"
               >
                 <Plus size={16} />
-                <span>+ Add Product</span>
+                <span>{t('supplier.addProduct', '+ Add Product')}</span>
               </button>
             </div>
 
             {loading ? (
               <div style={{ padding: '48px', textAlign: 'center', color: '#64748b' }}>
                 <Loader2 size={30} className="animate-spin" style={{ margin: '0 auto 10px', color: '#15803d' }} />
-                <p style={{ margin: 0, fontWeight: 700, fontSize: '0.85rem' }}>Loading product inventory...</p>
+                <p style={{ margin: 0, fontWeight: 700, fontSize: '0.85rem' }}>{t('common.loading', 'Loading product inventory...')}</p>
               </div>
             ) : !data?.products || data.products.length === 0 ? (
               <div
@@ -427,10 +429,10 @@ export default function SupplierDashboardPage() {
               >
                 <Package size={40} style={{ color: '#94a3b8', margin: '0 auto 12px' }} />
                 <h3 style={{ margin: '0 0 6px', fontSize: '0.95rem', fontWeight: 800, color: '#0f172a' }}>
-                  No products listed yet
+                  {t('common.emptyState', 'No products listed yet')}
                 </h3>
                 <p style={{ margin: '0 0 16px', fontSize: '0.8rem', color: '#64748b', maxWidth: '360px', marginLeft: 'auto', marginRight: 'auto' }}>
-                  Publish certified seeds, fertilizers, or farm machinery to start receiving farmer orders.
+                  {t('supplier.manageProducts', 'Publish certified seeds, fertilizers, or farm machinery to start receiving farmer orders.')}
                 </p>
                 <button
                   type="button"
@@ -438,7 +440,7 @@ export default function SupplierDashboardPage() {
                   className="supplier-btn-primary"
                 >
                   <Plus size={16} />
-                  <span>Add First Product</span>
+                  <span>{t('supplier.addProduct', 'Add First Product')}</span>
                 </button>
               </div>
             ) : (

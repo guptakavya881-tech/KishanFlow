@@ -7,10 +7,13 @@ import { useAuth } from '@/context/AuthContext';
 import WheatLogo from '@/components/WheatLogo';
 import FormInput from '@/components/FormInput';
 import { User, Phone, MapPin, Lock, Loader2, CheckCircle2 } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
+import LanguageSelector from '@/components/LanguageSelector';
 
 export default function FarmerRegisterPage() {
   const router = useRouter();
   const { register } = useAuth();
+  const { t } = useLanguage();
 
   const [formData, setFormData] = useState({
     fullName: '',
@@ -37,30 +40,30 @@ export default function FarmerRegisterPage() {
   const validate = () => {
     const errs = {};
     if (!formData.fullName.trim() || formData.fullName.trim().length < 2) {
-      errs.fullName = 'Full Name is required.';
+      errs.fullName = t('validation.nameRequired', 'Full Name is required (at least 2 characters).');
     }
 
     const cleanMobile = formData.mobile.replace(/[\s-]/g, '');
     if (!cleanMobile) {
-      errs.mobile = 'Mobile number is required.';
+      errs.mobile = t('validation.mobileRequired', 'Mobile number is required.');
     } else if (!/^[6-9]\d{9}$/.test(cleanMobile) && !/^\d{10}$/.test(cleanMobile)) {
-      errs.mobile = 'Please enter a valid 10-digit mobile number.';
+      errs.mobile = t('validation.validMobile', 'Please enter a valid 10-digit mobile number.');
     }
 
     if (!formData.location.trim()) {
-      errs.location = 'Location is required.';
+      errs.location = t('validation.locationRequired', 'Location (village/city/state) is required.');
     }
 
     if (!formData.password) {
-      errs.password = 'Create Password is required.';
+      errs.password = t('validation.passwordRequired', 'Create Password is required.');
     } else if (formData.password.length < 6) {
-      errs.password = 'Password should be at least 6 characters long.';
+      errs.password = t('validation.passwordMinLength', 'Password must be at least 6 characters long.');
     }
 
     if (!formData.confirmPassword) {
-      errs.confirmPassword = 'Confirm Password is required.';
+      errs.confirmPassword = t('validation.passwordInputRequired', 'Confirm Password is required.');
     } else if (formData.password !== formData.confirmPassword) {
-      errs.confirmPassword = 'Passwords do not match.';
+      errs.confirmPassword = t('validation.passwordsMismatch', 'Passwords do not match.');
     }
 
     setErrors(errs);
@@ -108,13 +111,17 @@ export default function FarmerRegisterPage() {
       />
 
       <div className="auth-container">
+        <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '10px' }}>
+          <LanguageSelector variant="compact" />
+        </div>
+
         {/* Header Branding */}
         <div className="auth-header">
           <div className="auth-logo-center">
             <WheatLogo size={52} href="/" />
           </div>
-          <h1 className="auth-title green-title">Farmer Registration</h1>
-          <p className="auth-tagline">Grow Together • Better Tomorrow</p>
+          <h1 className="auth-title green-title">{t('auth.farmerRegisterTitle', 'Farmer Registration')}</h1>
+          <p className="auth-tagline">{t('auth.farmerRegisterTagline', 'Grow Together • Better Tomorrow')}</p>
         </div>
 
         {/* Floating White Card */}
@@ -137,7 +144,7 @@ export default function FarmerRegisterPage() {
               id="fullName"
               name="fullName"
               type="text"
-              placeholder="Full Name"
+              placeholder={t('auth.fullNamePlaceholder', 'Full Name')}
               icon={User}
               value={formData.fullName}
               onChange={handleChange}
@@ -151,7 +158,7 @@ export default function FarmerRegisterPage() {
               id="mobile"
               name="mobile"
               type="tel"
-              placeholder="Mobile No"
+              placeholder={t('auth.mobilePlaceholder', '10-digit mobile number')}
               icon={Phone}
               value={formData.mobile}
               onChange={handleChange}
@@ -165,7 +172,7 @@ export default function FarmerRegisterPage() {
               id="location"
               name="location"
               type="text"
-              placeholder="Location"
+              placeholder={t('auth.locationPlaceholder', 'Location')}
               icon={MapPin}
               value={formData.location}
               onChange={handleChange}
@@ -179,7 +186,7 @@ export default function FarmerRegisterPage() {
               id="password"
               name="password"
               type="password"
-              placeholder="Create Password"
+              placeholder={t('auth.passwordPlaceholder', 'Create Password')}
               icon={Lock}
               value={formData.password}
               onChange={handleChange}
@@ -193,7 +200,7 @@ export default function FarmerRegisterPage() {
               id="confirmPassword"
               name="confirmPassword"
               type="password"
-              placeholder="Confirm Password"
+              placeholder={t('auth.confirmPasswordPlaceholder', 'Confirm Password')}
               icon={Lock}
               value={formData.confirmPassword}
               onChange={handleChange}
@@ -210,19 +217,19 @@ export default function FarmerRegisterPage() {
             >
               {loading ? (
                 <span className="flex items-center justify-center gap-2">
-                  <Loader2 size={18} className="animate-spin" /> Registering...
+                  <Loader2 size={18} className="animate-spin" /> {t('auth.registering', 'Registering...')}
                 </span>
               ) : (
-                'Register'
+                t('common.register', 'Register')
               )}
             </button>
           </form>
 
           {/* Footer Link */}
           <div className="auth-footer-text">
-            <span>Already have an account? </span>
+            <span>{t('auth.alreadyHaveAccount', 'Already have an account?')} </span>
             <Link href="/farmer/login" className="auth-link green-link">
-              Login here
+              {t('auth.loginHere', 'Login here')}
             </Link>
           </div>
         </div>

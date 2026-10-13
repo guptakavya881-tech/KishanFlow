@@ -6,6 +6,8 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import { useAuth } from '@/context/AuthContext';
+import { useLanguage } from '@/context/LanguageContext';
+import LanguageSelector from '@/components/LanguageSelector';
 import WheatLogo from '@/components/WheatLogo';
 import { SidebarTractorFooter } from '@/components/farmer/FarmIllustrations';
 import {
@@ -30,6 +32,7 @@ import {
 
 export default function FarmerLayout({ children, title, subtitle }) {
   const { user, logout } = useAuth();
+  const { t } = useLanguage();
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
@@ -60,58 +63,58 @@ export default function FarmerLayout({ children, title, subtitle }) {
   }, []);
 
   const navItems = [
-    { label: 'Dashboard', href: '/farmer/dashboard', icon: Home },
-    { label: 'My Farm', href: '/farmer/dashboard#my-farm', icon: Tractor },
-    { label: 'Crops', href: '/farmer/crops', icon: Sprout },
-    { label: 'Orders', href: '/farmer/orders', icon: Package },
-    { label: 'Supplier Inputs', href: '/farmer/supplier-orders', icon: Package },
-    { label: 'Procurement', href: '/farmer/procurement', icon: ClipboardList },
-    { label: 'Bookings', href: '/farmer/bookings', icon: CalendarCheck },
-    { label: 'Live Queue', href: '/farmer/queue', icon: Users },
-    { label: 'Payments', href: '/farmer/payments', icon: IndianRupee },
-    { label: 'Notifications', href: '/farmer/notifications', icon: Bell, badge: unreadCount },
-    { label: 'Profile', href: '/farmer/profile', icon: User },
-    { label: 'Settings', href: '/farmer/settings', icon: Settings },
+    { label: t('common.dashboard', 'Dashboard'), href: '/farmer/dashboard', icon: Home },
+    { label: t('farmer.myFarm', 'My Farm'), href: '/farmer/dashboard#my-farm', icon: Tractor },
+    { label: t('farmer.crops', 'Crops'), href: '/farmer/crops', icon: Sprout },
+    { label: t('farmer.orders', 'Orders'), href: '/farmer/orders', icon: Package },
+    { label: t('farmer.supplierInputs', 'Supplier Inputs'), href: '/farmer/supplier-orders', icon: Package },
+    { label: t('farmer.procurement', 'Procurement'), href: '/farmer/procurement', icon: ClipboardList },
+    { label: t('farmer.bookings', 'Bookings'), href: '/farmer/bookings', icon: CalendarCheck },
+    { label: t('farmer.liveQueue', 'Live Queue'), href: '/farmer/queue', icon: Users },
+    { label: t('farmer.payments', 'Payments'), href: '/farmer/payments', icon: IndianRupee },
+    { label: t('common.notifications', 'Notifications'), href: '/farmer/notifications', icon: Bell, badge: unreadCount },
+    { label: t('common.profile', 'Profile'), href: '/farmer/profile', icon: User },
+    { label: t('common.settings', 'Settings'), href: '/farmer/settings', icon: Settings },
   ];
 
-  const displayName = user?.fullName || 'Farmer';
+  const displayName = user?.fullName || t('common.farmer', 'Farmer');
 
   // Resolved Page Title and Subtitle for Header
   const resolvedTitle =
     title ||
     (pathname.startsWith('/farmer/supplier-orders')
-      ? 'Supplier Inputs'
+      ? t('farmer.supplierInputs', 'Supplier Inputs')
       : pathname.startsWith('/farmer/orders')
-      ? 'Crop Orders'
+      ? t('farmer.cropOrders', 'Crop Orders')
       : pathname.startsWith('/farmer/crops')
-      ? 'My Crops'
+      ? t('farmer.myCrops', 'My Crops')
       : pathname.startsWith('/farmer/bookings')
-      ? 'My Bookings'
+      ? t('farmer.myBookings', 'My Bookings')
       : pathname.startsWith('/farmer/procurement')
-      ? 'Procurement'
+      ? t('farmer.procurement', 'Procurement')
       : pathname.startsWith('/farmer/queue')
-      ? 'Live Queue'
+      ? t('farmer.liveQueue', 'Live Queue')
       : pathname.startsWith('/farmer/payments')
-      ? 'Payments'
+      ? t('farmer.payments', 'Payments')
       : pathname.startsWith('/farmer/profile')
-      ? 'My Profile'
+      ? t('common.myProfile', 'My Profile')
       : pathname.startsWith('/farmer/settings')
-      ? 'Settings'
+      ? t('common.settings', 'Settings')
       : (pathname.startsWith('/farmer/help') || pathname.startsWith('/farmer/support'))
-      ? 'Help & Support'
-      : 'Farmer Portal');
+      ? t('common.helpSupport', 'Help & Support')
+      : t('farmer.portalTitle', 'Farmer Portal'));
 
   const resolvedSubtitle =
     subtitle ||
     (pathname.startsWith('/farmer/supplier-orders')
-      ? 'Order agricultural inputs directly from verified suppliers.'
+      ? t('supplier.inputsGear', 'Order agricultural inputs directly from verified suppliers.')
       : pathname.startsWith('/farmer/orders')
-      ? 'Manage buyer crop purchase requests & order fulfillment.'
+      ? t('farmer.buyerOrderRequestsDesc', 'Manage buyer crop purchase requests & order fulfillment.')
       : pathname.startsWith('/farmer/settings')
-      ? 'Manage your account and preferences.'
+      ? t('settings.settingsSubtitle', 'Manage your account and preferences.')
       : (pathname.startsWith('/farmer/help') || pathname.startsWith('/farmer/support'))
-      ? 'Find answers or get help with your KishanFlow journey.'
-      : 'From Farm to Future — KishanFlow');
+      ? t('support.subtitle', 'Find answers or get help with your KishanFlow journey.')
+      : `${t('common.brandTagline', 'From Farm to Future')} — KishanFlow`);
 
   return (
     <ProtectedRoute allowedRoles={['farmer']}>
@@ -175,8 +178,8 @@ export default function FarmerLayout({ children, title, subtitle }) {
             >
               <Headphones size={18} style={{ color: '#94a3b8', flexShrink: 0 }} />
               <div style={{ display: 'flex', flexDirection: 'column' }}>
-                <span style={{ fontSize: '0.78rem', fontWeight: 800, color: '#334155' }}>Help & Support</span>
-                <span style={{ fontSize: '0.66rem', color: '#94a3b8', fontWeight: 500 }}>Need help? We're here.</span>
+                <span style={{ fontSize: '0.78rem', fontWeight: 800, color: '#334155' }}>{t('common.helpSupport', 'Help & Support')}</span>
+                <span style={{ fontSize: '0.66rem', color: '#94a3b8', fontWeight: 500 }}>{t('landing.benefit4Desc', "Need help? We're here.")}</span>
               </div>
             </Link>
 
@@ -185,7 +188,7 @@ export default function FarmerLayout({ children, title, subtitle }) {
               className="farmer-sidebar-footer-link logout"
             >
               <LogOut size={18} style={{ flexShrink: 0 }} />
-              <span>Logout</span>
+              <span>{t('common.logout', 'Logout')}</span>
             </button>
           </div>
 
@@ -220,18 +223,21 @@ export default function FarmerLayout({ children, title, subtitle }) {
               </div>
               <input
                 type="text"
-                placeholder="Search inputs, seeds, fertilizers..."
+                placeholder={t('farmer.searchInputsPlaceholder', 'Search inputs, seeds, fertilizers...')}
                 className="farmer-header-search-input"
               />
             </div>
 
-            {/* Right Header Area: Notifications Bell & Farmer Avatar */}
-            <div className="farmer-header-right">
+            {/* Right Header Area: Language Selector, Notifications Bell & Farmer Avatar */}
+            <div className="farmer-header-right" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              {/* Language Selector */}
+              <LanguageSelector variant="compact" />
+
               {/* Notification Bell with Badge */}
               <Link
                 href="/farmer/notifications"
                 className="farmer-header-notif-btn"
-                title="Notifications"
+                title={t('common.notifications', 'Notifications')}
               >
                 <Bell size={18} />
                 {unreadCount > 0 && (
@@ -269,7 +275,7 @@ export default function FarmerLayout({ children, title, subtitle }) {
                     <span className="farmer-header-user-name">
                       {displayName}
                     </span>
-                    <span className="farmer-header-user-role">Farmer</span>
+                    <span className="farmer-header-user-role">{t('common.farmer', 'Farmer')}</span>
                   </div>
 
                   <ChevronDown size={14} style={{ color: '#94a3b8', marginLeft: '2px' }} />
@@ -287,35 +293,35 @@ export default function FarmerLayout({ children, title, subtitle }) {
                       className="farmer-dropdown-item"
                     >
                       <User size={15} style={{ color: '#94a3b8' }} />
-                      <span>My Profile</span>
+                      <span>{t('common.myProfile', 'My Profile')}</span>
                     </Link>
                     <Link
                       href="/farmer/bookings"
                       className="farmer-dropdown-item"
                     >
                       <CalendarCheck size={15} style={{ color: '#94a3b8' }} />
-                      <span>My Bookings</span>
+                      <span>{t('farmer.myBookings', 'My Bookings')}</span>
                     </Link>
                     <Link
                       href="/farmer/help"
                       className="farmer-dropdown-item"
                     >
                       <Headphones size={15} style={{ color: '#94a3b8' }} />
-                      <span>Help & Support</span>
+                      <span>{t('common.helpSupport', 'Help & Support')}</span>
                     </Link>
                     <Link
                       href="/farmer/settings"
                       className="farmer-dropdown-item"
                     >
                       <Settings size={15} style={{ color: '#94a3b8' }} />
-                      <span>Settings</span>
+                      <span>{t('common.settings', 'Settings')}</span>
                     </Link>
                     <button
                       onClick={logout}
                       className="farmer-dropdown-item logout"
                     >
                       <LogOut size={15} />
-                      <span>Sign Out</span>
+                      <span>{t('common.signOut', 'Sign Out')}</span>
                     </button>
                   </div>
                 )}
@@ -346,6 +352,10 @@ export default function FarmerLayout({ children, title, subtitle }) {
                   >
                     <X size={20} />
                   </button>
+                </div>
+
+                <div style={{ padding: '8px 0', borderBottom: '1px solid #f1f5f9' }}>
+                  <LanguageSelector variant="compact" />
                 </div>
 
                 <nav style={{ flex: 1, padding: '12px 0', overflowY: 'auto' }}>
@@ -388,14 +398,14 @@ export default function FarmerLayout({ children, title, subtitle }) {
                     }`}
                   >
                     <Headphones size={18} style={{ color: '#94a3b8' }} />
-                    <span>Help & Support</span>
+                    <span>{t('common.helpSupport', 'Help & Support')}</span>
                   </Link>
                   <button
                     onClick={logout}
                     className="farmer-sidebar-footer-link logout"
                   >
                     <LogOut size={18} />
-                    <span>Logout</span>
+                    <span>{t('common.logout', 'Logout')}</span>
                   </button>
                 </div>
               </aside>

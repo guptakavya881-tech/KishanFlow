@@ -7,10 +7,13 @@ import { useAuth } from '@/context/AuthContext';
 import WheatLogo from '@/components/WheatLogo';
 import FormInput from '@/components/FormInput';
 import { Mail, Lock, Loader2, KeyRound, X } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
+import LanguageSelector from '@/components/LanguageSelector';
 
 export default function BuyerLoginPage() {
   const router = useRouter();
   const { login } = useAuth();
+  const { t } = useLanguage();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -28,10 +31,10 @@ export default function BuyerLoginPage() {
     e.preventDefault();
     const errs = {};
     if (!email.trim()) {
-      errs.email = 'Please enter your email address.';
+      errs.email = t('validation.emailRequired', 'Please enter your email address.');
     }
     if (!password) {
-      errs.password = 'Please enter your password.';
+      errs.password = t('validation.passwordInputRequired', 'Please enter your password.');
     }
 
     if (Object.keys(errs).length > 0) {
@@ -46,7 +49,7 @@ export default function BuyerLoginPage() {
       await login(email, password, 'buyer');
       router.push('/buyer/dashboard');
     } catch (err) {
-      setServerError(err.message || 'Invalid email/mobile or password.');
+      setServerError(err.message || t('validation.loginFailed', 'Invalid email/mobile or password.'));
     } finally {
       setLoading(false);
     }
@@ -80,12 +83,16 @@ export default function BuyerLoginPage() {
       />
 
       <div className="auth-container">
+        <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '10px' }}>
+          <LanguageSelector variant="compact" />
+        </div>
+
         <div className="auth-header">
           <div className="auth-logo-center">
             <WheatLogo size={52} href="/" />
           </div>
-          <h1 className="auth-title gold-title">Buyer Login</h1>
-          <p className="auth-tagline">Access fresh harvests from verified growers</p>
+          <h1 className="auth-title gold-title">{t('auth.buyerLoginTitle', 'Buyer Login')}</h1>
+          <p className="auth-tagline">{t('auth.buyerLoginTagline', 'Access fresh harvests from verified growers')}</p>
         </div>
 
         <div className="auth-card">
@@ -100,7 +107,7 @@ export default function BuyerLoginPage() {
               id="email"
               name="email"
               type="email"
-              placeholder="Email Address"
+              placeholder={t('auth.emailPlaceholder', 'Email Address')}
               icon={Mail}
               value={email}
               onChange={(e) => {
@@ -118,7 +125,7 @@ export default function BuyerLoginPage() {
               id="password"
               name="password"
               type="password"
-              placeholder="Password"
+              placeholder={t('auth.passwordPlaceholder', 'Password')}
               icon={Lock}
               value={password}
               onChange={(e) => {
@@ -141,7 +148,7 @@ export default function BuyerLoginPage() {
                 }}
                 className="forgot-password-link"
               >
-                Forgot Password?
+                {t('auth.forgotPassword', 'Forgot Password?')}
               </button>
             </div>
 
@@ -152,18 +159,18 @@ export default function BuyerLoginPage() {
             >
               {loading ? (
                 <span className="flex items-center justify-center gap-2">
-                  <Loader2 size={18} className="animate-spin" /> Logging in...
+                  <Loader2 size={18} className="animate-spin" /> {t('auth.loggingIn', 'Logging in...')}
                 </span>
               ) : (
-                'Login'
+                t('common.login', 'Login')
               )}
             </button>
           </form>
 
           <div className="auth-footer-text">
-            <span>Don't have an account? </span>
+            <span>{t('auth.dontHaveAccount', "Don't have an account?")} </span>
             <Link href="/buyer/register" className="auth-link gold-link">
-              Register here
+              {t('auth.registerHere', 'Register here')}
             </Link>
           </div>
         </div>
@@ -178,7 +185,7 @@ export default function BuyerLoginPage() {
             <div className="modal-header">
               <div className="flex items-center gap-2">
                 <KeyRound size={20} className="text-gold" />
-                <h3 className="font-bold text-lg">Reset Buyer Password</h3>
+                <h3 className="font-bold text-lg">{t('auth.resetFarmerPassword', 'Reset Password')}</h3>
               </div>
               <button
                 onClick={() => {
@@ -186,6 +193,7 @@ export default function BuyerLoginPage() {
                   setForgotMessage('');
                 }}
                 className="text-secondary hover:text-dark"
+                aria-label={t('common.close', 'Close')}
               >
                 <X size={20} />
               </button>
@@ -201,19 +209,19 @@ export default function BuyerLoginPage() {
                   }}
                   className="btn btn-primary w-full"
                 >
-                  Close
+                  {t('common.close', 'Close')}
                 </button>
               </div>
             ) : (
               <form onSubmit={handleForgotPassword} className="p-4 flex flex-col gap-4">
                 <p className="text-xs text-secondary">
-                  Enter your registered email address and we'll send you reset instructions.
+                  {t('auth.enterRegisteredInfo', "Enter your registered email address and we'll send you reset instructions.")}
                 </p>
                 <FormInput
                   id="forgotInput"
                   name="forgotInput"
                   type="email"
-                  placeholder="Registered Email"
+                  placeholder={t('auth.emailPlaceholder', 'Email Address')}
                   icon={Mail}
                   value={forgotInput}
                   onChange={(e) => setForgotInput(e.target.value)}
@@ -224,7 +232,7 @@ export default function BuyerLoginPage() {
                   disabled={forgotLoading}
                   className="btn btn-buyer-register w-full"
                 >
-                  {forgotLoading ? 'Sending...' : 'Send Reset Link'}
+                  {forgotLoading ? t('auth.sending', 'Sending...') : t('auth.sendResetLink', 'Send Reset Link')}
                 </button>
               </form>
             )}

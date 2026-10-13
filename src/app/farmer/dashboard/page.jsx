@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
+import { useLanguage } from '@/context/LanguageContext';
+import LanguageSelector from '@/components/LanguageSelector';
 import WheatLogo from '@/components/WheatLogo';
 import {
   LayoutDashboard,
@@ -92,6 +94,7 @@ function SimpleQRCode({ text, size = 140 }) {
 export default function FarmerDashboard() {
   const router = useRouter();
   const { user, loading: authLoading, logout } = useAuth();
+  const { t } = useLanguage();
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [dashboardData, setDashboardData] = useState(null);
@@ -125,7 +128,7 @@ export default function FarmerDashboard() {
   }, [user]);
 
   // Resolved Real Farmer Info
-  const farmerName = user?.fullName || dashboardData?.user?.fullName || 'Farmer';
+  const farmerName = user?.fullName || dashboardData?.user?.fullName || t('common.farmer', 'Farmer');
   const farmerInitial = farmerName.charAt(0).toUpperCase();
 
   const [selectedUpcomingId, setSelectedUpcomingId] = useState(null);
@@ -150,9 +153,9 @@ export default function FarmerDashboard() {
   // Time-based Greeting
   const getGreeting = () => {
     const hour = new Date().getHours();
-    if (hour < 12) return 'Good morning';
-    if (hour < 17) return 'Good afternoon';
-    return 'Good evening';
+    if (hour < 12) return t('farmer.goodMorning', 'Good morning');
+    if (hour < 17) return t('farmer.goodAfternoon', 'Good afternoon');
+    return t('farmer.goodEvening', 'Good evening');
   };
 
   // Queue Calculations (Derived realistically from token if available)
@@ -203,20 +206,20 @@ export default function FarmerDashboard() {
             <li>
               <Link href="/farmer/dashboard" className="farmer-saas-nav-item active">
                 <LayoutDashboard size={18} />
-                <span>Dashboard</span>
+                <span>{t('common.dashboard', 'Dashboard')}</span>
               </Link>
             </li>
             <li>
               <Link href="/farmer/crops" className="farmer-saas-nav-item">
                 <Sprout size={18} />
-                <span>My Crops</span>
+                <span>{t('farmer.myCrops', 'My Crops')}</span>
               </Link>
             </li>
             <li>
               <Link href="/farmer/orders" className="farmer-saas-nav-item" style={{ justifyContent: 'space-between' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                   <Package size={18} />
-                  <span>Orders</span>
+                  <span>{t('farmer.orders', 'Orders')}</span>
                 </div>
                 {(dashboardData?.orderMetrics?.newRequests || 0) > 0 && (
                   <span
@@ -237,26 +240,26 @@ export default function FarmerDashboard() {
             <li>
               <Link href="/farmer/bookings" className="farmer-saas-nav-item">
                 <Calendar size={18} />
-                <span>My Bookings</span>
+                <span>{t('farmer.myBookings', 'My Bookings')}</span>
               </Link>
             </li>
             <li>
               <Link href="/farmer/add-crop" className="farmer-saas-nav-item">
                 <Sparkles size={18} color="#d97706" />
-                <span>Find Best Slot</span>
+                <span>{t('farmer.findBestSlot', 'Find Best Slot')}</span>
               </Link>
             </li>
             <li>
               <Link href="/farmer/queue" className="farmer-saas-nav-item">
                 <Clock size={18} />
-                <span>Queue Status</span>
+                <span>{t('farmer.queueStatus', 'Queue Status')}</span>
               </Link>
             </li>
             <li>
               <Link href="/farmer/notifications" className="farmer-saas-nav-item" style={{ justifyContent: 'space-between' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                   <Bell size={18} />
-                  <span>Notifications</span>
+                  <span>{t('common.notifications', 'Notifications')}</span>
                 </div>
                 {unreadCount > 0 && (
                   <span
@@ -281,7 +284,7 @@ export default function FarmerDashboard() {
         <div className="farmer-saas-sidebar-footer">
           <Link href="/farmer/help" className="farmer-saas-nav-item">
             <HelpCircle size={18} />
-            <span>Help &amp; Support</span>
+            <span>{t('common.helpSupport', 'Help & Support')}</span>
           </Link>
 
           <button
@@ -296,7 +299,7 @@ export default function FarmerDashboard() {
             }}
           >
             <LogOut size={18} />
-            <span>Logout</span>
+            <span>{t('common.logout', 'Logout')}</span>
           </button>
         </div>
       </aside>
@@ -329,12 +332,15 @@ export default function FarmerDashboard() {
             </button>
 
             <span style={{ fontSize: '1.05rem', fontWeight: 800, color: '#14532d' }}>
-              Farmer Dashboard
+              {t('farmer.dashboardTitle', 'Farmer Dashboard')}
             </span>
           </div>
 
-          {/* Right Header: Notification + Profile */}
+          {/* Right Header: Language Selector + Notification + Profile */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            {/* Language Selector */}
+            <LanguageSelector variant="compact" />
+
             {/* Notification Bell */}
             <Link
               href="/farmer/notifications"
@@ -349,7 +355,7 @@ export default function FarmerDashboard() {
                 backgroundColor: '#f9fafb',
                 border: '1px solid #e5e7eb',
               }}
-              title="Notifications"
+              title={t('common.notifications', 'Notifications')}
             >
               <Bell size={18} />
               {unreadCount > 0 && (
@@ -402,7 +408,7 @@ export default function FarmerDashboard() {
                   {farmerName}
                 </span>
                 <span style={{ fontSize: '0.68rem', color: '#16a34a', fontWeight: 700 }}>
-                  Farmer
+                  {t('common.farmer', 'Farmer')}
                 </span>
               </div>
 
@@ -422,7 +428,7 @@ export default function FarmerDashboard() {
                 {getGreeting()}, {farmerName} 👋
               </h1>
               <p>
-                Manage your crops, procurement bookings and upcoming slots from one place.
+                {t('farmer.welcomeBannerDesc', 'Manage your crops, procurement bookings and upcoming slots from one place.')}
               </p>
             </div>
 
@@ -459,35 +465,35 @@ export default function FarmerDashboard() {
               <div style={{ color: '#15803d', display: 'flex' }}>
                 <Plus size={18} />
               </div>
-              <span>+ Add Crop</span>
+              <span>+ {t('farmer.addCrop', 'Add Crop')}</span>
             </Link>
 
             <Link href="/farmer/add-crop" className="farmer-quick-action-btn">
               <div style={{ color: '#d97706', display: 'flex' }}>
                 <Sparkles size={18} />
               </div>
-              <span>Find Best Slot</span>
+              <span>{t('farmer.findBestSlot', 'Find Best Slot')}</span>
             </Link>
 
             <Link href="/farmer/bookings" className="farmer-quick-action-btn">
               <div style={{ color: '#2563eb', display: 'flex' }}>
                 <Calendar size={18} />
               </div>
-              <span>My Bookings</span>
+              <span>{t('farmer.myBookings', 'My Bookings')}</span>
             </Link>
 
             <Link href="/farmer/orders" className="farmer-quick-action-btn">
               <div style={{ color: '#16a34a', display: 'flex' }}>
                 <Package size={18} />
               </div>
-              <span>Orders</span>
+              <span>{t('farmer.orders', 'Orders')}</span>
             </Link>
 
             <Link href="/farmer/queue" className="farmer-quick-action-btn">
               <div style={{ color: '#059669', display: 'flex' }}>
                 <Clock size={18} />
               </div>
-              <span>Queue Status</span>
+              <span>{t('farmer.queueStatus', 'Queue Status')}</span>
             </Link>
           </div>
 
@@ -496,43 +502,43 @@ export default function FarmerDashboard() {
             {/* Card 1: Active Crops */}
             <div className="farmer-stat-card">
               <div className="farmer-stat-top">
-                <span className="farmer-stat-label">Active Crops</span>
+                <span className="farmer-stat-label">{t('farmer.activeCrops', 'Active Crops')}</span>
                 <div className="farmer-stat-icon-wrap" style={{ backgroundColor: '#dcfce7', color: '#15803d' }}>
                   <Sprout size={18} />
                 </div>
               </div>
               <div className="farmer-stat-val">{stats.activeCropsCount}</div>
-              <span className="farmer-stat-desc">Registered in APMC Mandi</span>
+              <span className="farmer-stat-desc">{t('farmer.activeCropsDesc', 'Registered in APMC Mandi')}</span>
             </div>
 
             {/* Card 2: Upcoming Booking */}
             <div className="farmer-stat-card">
               <div className="farmer-stat-top">
-                <span className="farmer-stat-label">Upcoming Booking</span>
+                <span className="farmer-stat-label">{t('farmer.upcomingBooking', 'Upcoming Booking')}</span>
                 <div className="farmer-stat-icon-wrap" style={{ backgroundColor: '#fef3c7', color: '#d97706' }}>
                   <Calendar size={18} />
                 </div>
               </div>
               <div className="farmer-stat-val">{stats.upcomingBookingsCount}</div>
-              <span className="farmer-stat-desc">Scheduled appointments</span>
+              <span className="farmer-stat-desc">{t('farmer.upcomingBookingDesc', 'Scheduled appointments')}</span>
             </div>
 
             {/* Card 3: Completed Procurement */}
             <div className="farmer-stat-card">
               <div className="farmer-stat-top">
-                <span className="farmer-stat-label">Completed</span>
+                <span className="farmer-stat-label">{t('farmer.completedProcurement', 'Completed')}</span>
                 <div className="farmer-stat-icon-wrap" style={{ backgroundColor: '#e0e7ff', color: '#4338ca' }}>
                   <CheckCircle2 size={18} />
                 </div>
               </div>
               <div className="farmer-stat-val">{stats.completedProcurementsCount}</div>
-              <span className="farmer-stat-desc">Processed harvests</span>
+              <span className="farmer-stat-desc">{t('farmer.completedProcurementDesc', 'Processed harvests')}</span>
             </div>
 
             {/* Card 4: Pending Payment */}
             <div className="farmer-stat-card">
               <div className="farmer-stat-top">
-                <span className="farmer-stat-label">Pending Payment</span>
+                <span className="farmer-stat-label">{t('farmer.pendingPayment', 'Pending Payment')}</span>
                 <div className="farmer-stat-icon-wrap" style={{ backgroundColor: '#f3e8ff', color: '#7e22ce' }}>
                   <CreditCard size={18} />
                 </div>
@@ -544,8 +550,8 @@ export default function FarmerDashboard() {
               </div>
               <span className="farmer-stat-desc">
                 {(stats.pendingPaymentsAmount && stats.pendingPaymentsAmount > 0)
-                  ? `${stats.pendingPaymentsCount || 0} order(s) awaiting payment`
-                  : 'No pending payments'}
+                  ? t('farmer.ordersAwaitingPayment', { count: stats.pendingPaymentsCount || 0 })
+                  : t('farmer.noPendingPayment', 'No pending payments')}
               </span>
             </div>
           </div>
@@ -567,10 +573,10 @@ export default function FarmerDashboard() {
                 </div>
                 <div>
                   <h3 style={{ fontSize: '1rem', fontWeight: 900, color: '#0f172a', margin: 0 }}>
-                    Buyer Order Requests
+                    {t('farmer.buyerOrderRequests', 'Buyer Order Requests')}
                   </h3>
                   <span style={{ fontSize: '0.74rem', color: '#6b7280', fontWeight: 600 }}>
-                    Live procurement requests placed for your registered crops
+                    {t('farmer.buyerOrderRequestsDesc', 'Live procurement requests placed for your registered crops')}
                   </span>
                 </div>
               </div>
@@ -591,7 +597,7 @@ export default function FarmerDashboard() {
                   border: '1px solid #bbf7d0',
                 }}
               >
-                <span>View Orders</span>
+                <span>{t('farmer.viewOrders', 'View Orders')}</span>
                 <ArrowRight size={14} />
               </Link>
             </div>
@@ -599,42 +605,42 @@ export default function FarmerDashboard() {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '12px' }}>
               <div style={{ backgroundColor: '#fafaf7', padding: '12px 14px', borderRadius: '12px', border: '1px solid #f3f4f6' }}>
                 <span style={{ fontSize: '0.68rem', textTransform: 'uppercase', fontWeight: 800, color: '#d97706', display: 'block' }}>
-                  New Requests
+                  {t('farmer.newRequests', 'New Requests')}
                 </span>
                 <span style={{ fontSize: '1.4rem', fontWeight: 900, color: '#d97706' }}>
                   {dashboardData?.orderMetrics?.newRequests || 0}
                 </span>
-                <span style={{ fontSize: '0.7rem', color: '#6b7280', display: 'block' }}>Pending confirmation</span>
+                <span style={{ fontSize: '0.7rem', color: '#6b7280', display: 'block' }}>{t('farmer.pendingConfirmation', 'Pending confirmation')}</span>
               </div>
 
               <div style={{ backgroundColor: '#fafaf7', padding: '12px 14px', borderRadius: '12px', border: '1px solid #f3f4f6' }}>
                 <span style={{ fontSize: '0.68rem', textTransform: 'uppercase', fontWeight: 800, color: '#15803d', display: 'block' }}>
-                  Confirmed Orders
+                  {t('farmer.confirmedOrders', 'Confirmed Orders')}
                 </span>
                 <span style={{ fontSize: '1.4rem', fontWeight: 900, color: '#15803d' }}>
                   {dashboardData?.orderMetrics?.confirmedOrders || 0}
                 </span>
-                <span style={{ fontSize: '0.7rem', color: '#6b7280', display: 'block' }}>Accepted requests</span>
+                <span style={{ fontSize: '0.7rem', color: '#6b7280', display: 'block' }}>{t('farmer.acceptedRequests', 'Accepted requests')}</span>
               </div>
 
               <div style={{ backgroundColor: '#fafaf7', padding: '12px 14px', borderRadius: '12px', border: '1px solid #f3f4f6' }}>
                 <span style={{ fontSize: '0.68rem', textTransform: 'uppercase', fontWeight: 800, color: '#2563eb', display: 'block' }}>
-                  Active Orders
+                  {t('farmer.activeOrders', 'Active Orders')}
                 </span>
                 <span style={{ fontSize: '1.4rem', fontWeight: 900, color: '#2563eb' }}>
                   {dashboardData?.orderMetrics?.activeOrders || 0}
                 </span>
-                <span style={{ fontSize: '0.7rem', color: '#6b7280', display: 'block' }}>In procurement flow</span>
+                <span style={{ fontSize: '0.7rem', color: '#6b7280', display: 'block' }}>{t('farmer.inProcurementFlow', 'In procurement flow')}</span>
               </div>
 
               <div style={{ backgroundColor: '#fafaf7', padding: '12px 14px', borderRadius: '12px', border: '1px solid #f3f4f6' }}>
                 <span style={{ fontSize: '0.68rem', textTransform: 'uppercase', fontWeight: 800, color: '#4338ca', display: 'block' }}>
-                  Completed
+                  {t('farmer.completedOrders', 'Completed')}
                 </span>
                 <span style={{ fontSize: '1.4rem', fontWeight: 900, color: '#4338ca' }}>
                   {dashboardData?.orderMetrics?.completedOrders || 0}
                 </span>
-                <span style={{ fontSize: '0.7rem', color: '#6b7280', display: 'block' }}>Fulfilled orders</span>
+                <span style={{ fontSize: '0.7rem', color: '#6b7280', display: 'block' }}>{t('farmer.fulfilledOrders', 'Fulfilled orders')}</span>
               </div>
             </div>
           </div>

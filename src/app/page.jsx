@@ -5,39 +5,43 @@ import Navbar from '@/components/Navbar';
 import HeroSection from '@/components/HeroSection';
 import RoleCard from '@/components/RoleCard';
 import BenefitsBar from '@/components/BenefitsBar';
+import LanguageSelector from '@/components/LanguageSelector';
 import WheatLogo from '@/components/WheatLogo';
+import { useLanguage } from '@/context/LanguageContext';
 import { Mail, Phone, MapPin, CheckCircle, Sparkles, ShieldCheck } from 'lucide-react';
 
 export default function HomePage() {
+  const { t } = useLanguage();
+
   const roleCards = [
     {
       role: 'farmer',
-      title: 'Farmer',
-      subtitle: 'Grow your produce, get better opportunities.',
+      title: t('landing.roleFarmerTitle', 'Farmer'),
+      subtitle: t('landing.roleFarmerSub', 'Grow your produce, get better opportunities.'),
       href: '/farmer/login',
       theme: 'green',
       avatarImg: '/images/avatar_farmer.jpg',
     },
     {
       role: 'buyer',
-      title: 'Buyer',
-      subtitle: 'Find fresh produce, connect with trusted farmers.',
+      title: t('landing.roleBuyerTitle', 'Buyer'),
+      subtitle: t('landing.roleBuyerSub', 'Find fresh produce, connect with trusted farmers.'),
       href: '/buyer/login',
       theme: 'blue',
       avatarImg: '/images/avatar_buyer.jpg',
     },
     {
       role: 'admin',
-      title: 'Admin',
-      subtitle: 'Manage users, monitor and keep the system smooth.',
+      title: t('landing.roleAdminTitle', 'Admin'),
+      subtitle: t('landing.roleAdminSub', 'Manage users, monitor and keep the system smooth.'),
       href: '/admin/login',
       theme: 'purple',
       avatarImg: '/images/avatar_admin.jpg',
     },
     {
       role: 'supplier',
-      title: 'Supplier',
-      subtitle: 'Supply quality products, expand your business.',
+      title: t('landing.roleSupplierTitle', 'Supplier'),
+      subtitle: t('landing.roleSupplierSub', 'Supply quality products, expand your business.'),
       href: '/supplier/login',
       theme: 'orange',
       avatarImg: null, // Renders the stylized golden truck
@@ -70,11 +74,13 @@ export default function HomePage() {
         <section id="about" className="info-section bg-white">
           <div className="section-container">
             <div className="section-header text-center">
-              <span className="section-kicker">About the Platform</span>
-              <h2 className="section-heading">Transforming Agricultural Commerce</h2>
+              <span className="section-kicker">{t('landing.aboutKicker', 'About the Platform')}</span>
+              <h2 className="section-heading">{t('landing.aboutHeading', 'Transforming Agricultural Commerce')}</h2>
               <p className="section-subtext">
-                KishanFlow builds a reliable bridge between hard-working farmers, commercial & retail buyers,
-                agricultural suppliers, and platform administrators.
+                {t(
+                  'landing.aboutSubtext',
+                  'KishanFlow builds a reliable bridge between hard-working farmers, commercial & retail buyers, agricultural suppliers, and platform administrators.'
+                )}
               </p>
             </div>
 
@@ -83,10 +89,12 @@ export default function HomePage() {
                 <div className="feature-icon green">
                   <Sparkles size={24} />
                 </div>
-                <h3>Fair Value for Farmers</h3>
+                <h3>{t('landing.feature1Title', 'Fair Value for Farmers')}</h3>
                 <p>
-                  Eliminating unnecessary middlemen allows farmers to receive fair compensation
-                  and real-time market rate visibility.
+                  {t(
+                    'landing.feature1Desc',
+                    'Eliminating unnecessary middlemen allows farmers to receive fair compensation and real-time market rate visibility.'
+                  )}
                 </p>
               </div>
 
@@ -94,10 +102,12 @@ export default function HomePage() {
                 <div className="feature-icon blue">
                   <ShieldCheck size={24} />
                 </div>
-                <h3>Farm-Fresh for Buyers</h3>
+                <h3>{t('landing.feature2Title', 'Farm-Fresh for Buyers')}</h3>
                 <p>
-                  Direct procurement ensures the highest quality, harvested-to-order produce
-                  delivered quickly to retail buyers and consumers.
+                  {t(
+                    'landing.feature2Desc',
+                    'Direct procurement ensures the highest quality, harvested-to-order produce delivered quickly to retail buyers and consumers.'
+                  )}
                 </p>
               </div>
 
@@ -105,10 +115,12 @@ export default function HomePage() {
                 <div className="feature-icon orange">
                   <CheckCircle size={24} />
                 </div>
-                <h3>Seamless Supply Network</h3>
+                <h3>{t('landing.feature3Title', 'Seamless Supply Network')}</h3>
                 <p>
-                  Suppliers of seeds, fertilizers, machinery, and logistics integrate seamlessly
-                  into an organized agricultural supply chain.
+                  {t(
+                    'landing.feature3Desc',
+                    'Suppliers of seeds, fertilizers, machinery, and logistics integrate seamlessly into an organized agricultural supply chain.'
+                  )}
                 </p>
               </div>
             </div>
@@ -121,9 +133,9 @@ export default function HomePage() {
             <div className="contact-card">
               <div className="contact-header text-center">
                 <WheatLogo size={48} />
-                <h2 className="text-2xl font-bold mt-2">Get in Touch with KishanFlow</h2>
+                <h2 className="text-2xl font-bold mt-2">{t('landing.contactHeading', 'Get in Touch with KishanFlow')}</h2>
                 <p className="text-secondary text-sm">
-                  Have questions or need assistance onboarding? Our team is available 24/7.
+                  {t('landing.contactSubtext', 'Have questions or need assistance onboarding? Our team is available 24/7.')}
                 </p>
               </div>
 
@@ -133,8 +145,8 @@ export default function HomePage() {
                     <Phone size={20} />
                   </div>
                   <div>
-                    <h5 className="font-semibold text-sm">Helpline</h5>
-                    <p className="text-secondary text-sm">+91 1800-KISHANFLOW</p>
+                    <h5 className="font-semibold text-sm">{t('landing.helpline', 'Helpline')}</h5>
+                    <p className="text-secondary text-sm">{t('landing.helplineValue', '+91 1800-KISHANFLOW')}</p>
                   </div>
                 </div>
 
@@ -143,8 +155,8 @@ export default function HomePage() {
                     <Mail size={20} />
                   </div>
                   <div>
-                    <h5 className="font-semibold text-sm">Email Support</h5>
-                    <p className="text-secondary text-sm">support@kishanflow.com</p>
+                    <h5 className="font-semibold text-sm">{t('landing.emailSupport', 'Email Support')}</h5>
+                    <p className="text-secondary text-sm">{t('landing.emailSupportValue', 'support@kishanflow.com')}</p>
                   </div>
                 </div>
 
@@ -153,8 +165,8 @@ export default function HomePage() {
                     <MapPin size={20} />
                   </div>
                   <div>
-                    <h5 className="font-semibold text-sm">Headquarters</h5>
-                    <p className="text-secondary text-sm">Krishi Bhavan, New Delhi, India</p>
+                    <h5 className="font-semibold text-sm">{t('landing.hq', 'Headquarters')}</h5>
+                    <p className="text-secondary text-sm">{t('landing.hqValue', 'Krishi Bhavan, New Delhi, India')}</p>
                   </div>
                 </div>
               </div>
@@ -169,17 +181,18 @@ export default function HomePage() {
           <div className="footer-left">
             <WheatLogo size={32} showText={true} />
             <p className="text-xs text-secondary mt-1">
-              © {new Date().getFullYear()} KishanFlow. All rights reserved. "From Farm to Future".
+              © {new Date().getFullYear()} KishanFlow. {t('landing.allRightsReserved', 'All rights reserved. "From Farm to Future".')}
             </p>
           </div>
 
-          <div className="footer-right">
+          <div className="footer-right" style={{ display: 'flex', alignItems: 'center', gap: '20px', flexWrap: 'wrap' }}>
             <div className="footer-links">
-              <a href="#about" className="footer-link">About Us</a>
-              <a href="#features" className="footer-link">Features</a>
-              <a href="#contact" className="footer-link">Contact</a>
-              <a href="/admin/login" className="footer-link">Admin Access</a>
+              <a href="#about" className="footer-link">{t('common.about', 'About Us')}</a>
+              <a href="#features" className="footer-link">{t('common.features', 'Features')}</a>
+              <a href="#contact" className="footer-link">{t('common.contact', 'Contact')}</a>
+              <a href="/admin/login" className="footer-link">{t('landing.adminAccess', 'Admin Access')}</a>
             </div>
+            <LanguageSelector variant="compact" />
           </div>
         </div>
       </footer>

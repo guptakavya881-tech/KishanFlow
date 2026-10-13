@@ -2,8 +2,11 @@
 
 import React from 'react';
 import WheatLogo from './WheatLogo';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function HeroSection() {
+  const { t } = useLanguage();
+
   return (
     <section className="hero-section">
       <div className="hero-container">
@@ -19,21 +22,23 @@ export default function HeroSection() {
 
           <div className="hero-tagline-wrapper">
             <span className="tagline-line" />
-            <h2 className="hero-tagline">From Farm to Future</h2>
+            <h2 className="hero-tagline">{t('common.brandTagline', 'From Farm to Future')}</h2>
             <span className="tagline-line" />
           </div>
 
           <p className="hero-description">
-            Connecting farmers, buyers, suppliers and admins for a smarter and
-            stronger agriculture ecosystem.
+            {t(
+              'landing.heroDesc',
+              'Connecting farmers, buyers, suppliers and admins for a smarter and stronger agriculture ecosystem.'
+            )}
           </p>
 
           <div className="hero-quick-actions">
             <a href="#roles" className="hero-cta-btn">
-              Explore Portals
+              {t('landing.explorePortals', 'Explore Portals')}
             </a>
             <a href="#about" className="hero-secondary-btn">
-              Learn More
+              {t('landing.learnMore', 'Learn More')}
             </a>
           </div>
         </div>
@@ -53,10 +58,10 @@ export default function HeroSection() {
 
             {/* Handwritten callout script badge */}
             <div className="handwritten-callout">
-              <span className="script-line-1">Good</span>
-              <span className="script-line-2">Harvests</span>
-              <span className="script-line-3">Start with</span>
-              <span className="script-line-4">Connection</span>
+              <span className="script-line-1">{t('landing.handwritten1', 'Good')}</span>
+              <span className="script-line-2">{t('landing.handwritten2', 'Harvests')}</span>
+              <span className="script-line-3">{t('landing.handwritten3', 'Start with')}</span>
+              <span className="script-line-4">{t('landing.handwritten4', 'Connection')}</span>
               <svg className="callout-curve-arrow" viewBox="0 0 60 20" fill="none">
                 <path d="M5 15 C 25 5, 45 10, 55 18" stroke="#d49a2a" strokeWidth="2.5" strokeLinecap="round" />
               </svg>

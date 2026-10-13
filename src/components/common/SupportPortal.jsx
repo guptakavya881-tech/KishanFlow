@@ -18,6 +18,7 @@ import {
   Search,
   Check,
 } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
 
 const CATEGORIES = [
   'Crop Listing Issue',
@@ -31,6 +32,7 @@ const CATEGORIES = [
 
 export default function SupportPortal({ userRole = 'farmer', faqs = [] }) {
   const { user } = useAuth();
+  const { t } = useLanguage();
 
   // Active tab: 'new-ticket' | 'my-tickets' | 'faq'
   const [activeTab, setActiveTab] = useState('new-ticket');
@@ -145,13 +147,13 @@ export default function SupportPortal({ userRole = 'farmer', faqs = [] }) {
         <div>
           <div className="flex items-center gap-2 text-emerald-700 font-bold text-xs uppercase tracking-wider mb-1">
             <HelpCircle size={16} />
-            <span>KishanFlow Mandi &amp; Operations Help Desk</span>
+            <span>{t('support.helpDesk', 'KishanFlow Mandi & Operations Help Desk')}</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight m-0">
-            Help &amp; Support
+            {t('support.title', 'Help & Support')}
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 mt-1 m-0">
-            Find answers or get help with your KishanFlow journey.
+            {t('support.subtitle', 'Find answers or get help with your KishanFlow journey.')}
           </p>
         </div>
 
@@ -162,14 +164,14 @@ export default function SupportPortal({ userRole = 'farmer', faqs = [] }) {
             onClick={() => setActiveTab('new-ticket')}
             className={`kf-tab-pill ${activeTab === 'new-ticket' ? 'active' : ''}`}
           >
-            Report an Issue
+            {t('support.reportIssue', 'Report an Issue')}
           </button>
           <button
             type="button"
             onClick={() => setActiveTab('my-tickets')}
             className={`kf-tab-pill ${activeTab === 'my-tickets' ? 'active' : ''}`}
           >
-            <span>My Tickets</span>
+            <span>{t('support.myTickets', 'My Tickets')}</span>
             {tickets.length > 0 && (
               <span className="px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-black">
                 {tickets.length}
@@ -181,7 +183,7 @@ export default function SupportPortal({ userRole = 'farmer', faqs = [] }) {
             onClick={() => setActiveTab('faq')}
             className={`kf-tab-pill ${activeTab === 'faq' ? 'active' : ''}`}
           >
-            Frequently Asked Questions
+            {t('support.faqs', 'Frequently Asked Questions')}
           </button>
         </div>
       </div>
@@ -196,9 +198,9 @@ export default function SupportPortal({ userRole = 'farmer', faqs = [] }) {
                 <MessageSquare size={20} />
               </div>
               <div>
-                <h2 className="kf-settings-card-title">Submit a Support Ticket</h2>
+                <h2 className="kf-settings-card-title">{t('support.submitTicket', 'Submit a Support Ticket')}</h2>
                 <p className="kf-settings-card-sub">
-                  Provide details so our mandi operations desk can triage and investigate quickly.
+                  {t('support.submitTicketSub', 'Provide details so our mandi operations desk can triage and investigate quickly.')}
                 </p>
               </div>
             </div>
